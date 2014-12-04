@@ -1,0 +1,23 @@
+{
+  "name": "cwcreations",
+  "version": "0.0.1",
+  "homepage": "https://cwcreations.firebaseapp.com/",
+  "authors": [
+    "Bob Zurad"
+  ],
+  "description": "A web app I'm making for my wife so she can sell her handmade creations online",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbonefire": "~0.5.0",
+    "jquery": "~2.1.1"
+  }
+}

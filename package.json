@@ -1,0 +1,26 @@
+{
+  "name": "cwcreations",
+  "author": {
+    "name": "Bob Zurad",
+    "url": "https://twitter.com/SpuriousTuple"
+  },
+  "description": "A web app I'm making for my wife so she can sell her handmade creations online",
+  "version": "0.0.1",
+  "homepage": "https://cwcreations.firebaseapp.com/",
+  "repository": "https://github.com/bobzurad/cwcreations",
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jshint": "./node_modules/.bin/jshint js",
+    "prestart": "npm install",
+    "start": "http-server -a localhost -p 8001",
+    "pretest": "npm install"
+  },
+  "dependencies": {
+    "jshint": "^2.5.10"
+  }
+}
