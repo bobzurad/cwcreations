@@ -1,6 +1,6 @@
 {
   "firebase": "cwcreations",
-  "public": ".",
+  "public": "app/",
   "ignore": [
     "firebase.json",
     "**/.*",

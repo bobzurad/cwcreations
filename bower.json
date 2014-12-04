@@ -6,7 +6,7 @@
     "Bob Zurad"
   ],
   "description": "A web app I'm making for my wife so she can sell her handmade creations online",
-  "main": "index.html",
+  "main": "app/index.html",
   "license": "MIT",
   "private": true,
   "ignore": [
