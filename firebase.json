@@ -1,0 +1,9 @@
+{
+  "firebase": "cwcreations",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
