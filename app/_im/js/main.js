@@ -26,17 +26,11 @@ require.config({
 });
 
 require(
-  ['backbone', 'views/list','views/login', 'collections/bracelets', 'bootstrap'],
-  function (Backbone, ListView, LoginView, Bracelets) {
+  ['backbone', 'routers/router', 'bootstrap'],
+  function (Backbone, Workspace) {
     /*jshint nonew:false*/
     // Initialize routing and start Backbone.history()
-    //new Workspace();
+    new Workspace();
     Backbone.history.start();
-
-    if (Bracelets.firebase.getAuth() === null) {
-      new LoginView().$el.show();
-    } else {
-      new ListView().$el.show();
-    }
   }
 );
