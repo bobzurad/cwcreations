@@ -9,24 +9,32 @@ define(
       template: _.template(loginTemplate),
 
       events: {
-        "click #googleLogin": "authWithGoogle"
+        "click #googleLogin": "authWithGoogle",
+        "click #facebookLogin": "authWithFacebook"
       },
 
       render: function() {
         this.$el.html(this.template());
 
-        //can't do this in initialize() because #error div doesn't exist in DOM until after the template is rendered
-        this.$error = this.$("#error");
-
         return this;
       },
 
+      removeTemplate: function() {
+        this.$el.children().remove();
+      },
+
       authWithGoogle: function() {
-        this.model.firebase.authWithOAuthPopup("google", function(error, authData) {
-          if (authData === undefined) {
-            //TODO: figure out why this is null
-            //this.$error.text(error.code + " " + error.details + " " + error.message + " " + error.stack);
-            alert(error.message);
+        this._login("google");
+      },
+
+      authWithFacebook: function() {
+        this._login("facebook");
+      },
+
+      _login: function(provider) {
+        this.model.firebase.authWithOAuthPopup(provider, function(error, authData) {
+          if (error) {
+            $("#error").html(error.message);
           } else {
             window.location.hash = "#list";
           }

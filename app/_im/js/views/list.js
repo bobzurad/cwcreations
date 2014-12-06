@@ -6,7 +6,20 @@ define(
     var ListView = Backbone.View.extend({
       el: '#inventory',
 
-      template: _.template(listTemplate)
+      template: _.template(listTemplate),
+
+      render: function() {
+        this.$el.html(this.template({
+          //TODO: this is hardcoded to facebook
+          name: this.model.firebase.getAuth().facebook.displayName
+        }));
+
+        return this;
+      },
+
+      removeTemplate: function() {
+        this.$el.children().remove();
+      },
 
     });
 
