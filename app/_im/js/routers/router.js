@@ -1,6 +1,6 @@
 define(
-  ['jquery', 'backbone', 'models/rootRef', 'views/login', 'views/list'],
-  function($, Backbone, RootRef, LoginView, ListView) {
+  ['jquery', 'backbone', 'models/rootRef', 'collections/bracelets', 'views/login', 'views/list'],
+  function($, Backbone, Bracelets, RootRef, LoginView, ListView) {
     'use strict';
 
     var Workspace = Backbone.Router.extend({
@@ -12,7 +12,7 @@ define(
       },
       initialize: function() {
         this.LoginView = new LoginView({ model: RootRef });
-        this.ListView = new ListView({ model: RootRef });
+        this.ListView = new ListView({ model: Bracelets });
       },
       defaultRoute: function() {
         if (RootRef.firebase.getAuth() === null) {

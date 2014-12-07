@@ -1,10 +1,10 @@
 define(
-  ['underscore', 'backbone', 'firebase', 'backbonefire'],
-  function(_, Backbone) {
+  ['underscore', 'backbone', 'firebaseConfig', 'firebase', 'backbonefire'],
+  function(_, Backbone, firebaseConfig) {
     'use strict';
 
     var RootRef = Backbone.Firebase.Model.extend({
-      url: 'https://cwcreations.firebaseio.com/'
+      url: firebaseConfig.url
     });
 
     return new RootRef();

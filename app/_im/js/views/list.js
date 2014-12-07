@@ -11,7 +11,8 @@ define(
       render: function() {
         this.$el.html(this.template({
           //TODO: this is hardcoded to facebook
-          name: this.model.firebase.getAuth().facebook.displayName
+          name: this.model.firebase.getAuth().facebook.displayName,
+          bracelets: this.model
         }));
 
         return this;

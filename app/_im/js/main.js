@@ -25,6 +25,10 @@ require.config({
   }
 });
 
+define('firebaseConfig', {
+  url: 'https://cwcreations.firebaseio.com/'
+});
+
 require(
   ['backbone', 'routers/router', 'bootstrap'],
   function (Backbone, Workspace) {

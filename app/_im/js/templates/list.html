@@ -21,4 +21,10 @@
 
 <div class="container">
   Hello <%= name %>
+
+  <ul>
+    <% _.each(bracelets, function(bracelet) { %>
+      <li><%= bracelet.key %></li>
+    <% }); %>
+  </ul>
 </div>
