@@ -1,6 +1,6 @@
 cwcreations
 ===========
-This is my own personal experiment at creating a web app using the node.js platform. I've spent my entire career building and supporting web applications with the .NET platform, so node.js is very new to me. This project is my way of learning something new. This project uses [Firebase](www.firebase.com) for a backend and the [BackboneFire](https://www.firebase.com/docs/web/libraries/backbone/quickstart.html) library. The goal of this project is to create an application that my wife can use to sell her handmade creations online.
+This is my own personal experiment at creating a web app using the node.js platform. I've spent my entire career building and supporting web applications with the .NET platform, so node.js is very new to me. This project is my way of learning something new. This project uses [Firebase](http://www.firebase.com) for a backend and the [BackboneFire](https://www.firebase.com/docs/web/libraries/backbone/quickstart.html) library. The goal of this project is to create an application that my wife can use to sell her handmade creations online.
 
 ##Development
 Developing this project requires
@@ -23,7 +23,7 @@ The only thing that needs to be configured is the location of the firebase app. 
 ```javascript
 define('firebaseConfig', {
   url: 'https://cwcreations.firebaseio.com/'
-  });
+});
 ```
 
 ###Running this app
