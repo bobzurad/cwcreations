@@ -8,19 +8,27 @@ define(
 
       template: _.template(listTemplate),
 
+      initialize: function() {
+        this.listenTo(this.collection, 'sync', this.render);
+      },
+
       render: function() {
-        this.$el.html(this.template({
-          //TODO: this is hardcoded to facebook
-          name: this.model.firebase.getAuth().facebook.displayName,
-          bracelets: this.model
-        }));
+        var auth = this.collection.firebase.getAuth();
+
+        if (auth) {
+          this.$el.html(this.template({
+            //TODO: this is hardcoded to facebook
+            name: auth.facebook.displayName,
+            bracelets: this.collection.models
+          }));
+        }
 
         return this;
       },
 
       removeTemplate: function() {
         this.$el.children().remove();
-      },
+      }
 
     });
 
