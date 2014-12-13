@@ -36,7 +36,7 @@ define(
           if (error) {
             $("#error").html(error.message);
           } else {
-            window.location.hash = "#list";
+            window.location.hash = "#/list";  //we don't have access to router here, so can't call .navigate()
           }
         });
       }
