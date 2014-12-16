@@ -8,6 +8,10 @@ define(
 
       template: _.template(addBraceletTemplate),
 
+      events: {
+        "click #save": "saveClick"
+      },
+
       render: function() {
         this.$el.html(this.template());
         return this;
@@ -15,6 +19,10 @@ define(
 
       removeTemplate: function() {
         this.$el.children().remove();
+      },
+
+      saveClick: function(e) {
+        console.log("save clicked");
       }
     });
 
