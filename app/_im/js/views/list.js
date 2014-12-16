@@ -15,7 +15,7 @@ define(
       render: function() {
         var auth = this.collection.firebase.getAuth();
 
-        if (auth) {
+        if (auth && window.location.hash.indexOf("list") >= 0) {
           this.$el.html(this.template({
             //TODO: this is hardcoded to facebook
             name: auth.facebook.displayName,

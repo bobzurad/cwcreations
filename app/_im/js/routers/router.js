@@ -19,10 +19,16 @@ define(
         "*path": "defaultRoute"
       },
       initialize: function() {
+        //this function runs on every page load
         this.LoginView = new LoginView({ model: RootRef });
         this.ListView = new ListView({ collection: Bracelets });
         this.MenuView = new MenuView({ model: RootRef });
         this.AddBraceletView = new AddBraceletView();
+
+        //always render menu when authenticated
+        if (RootRef.firebase.getAuth()) {
+          this.MenuView.render();
+        }
       },
       defaultRoute: function() {
         if (RootRef.firebase.getAuth() === null) {
