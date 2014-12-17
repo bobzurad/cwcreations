@@ -12,6 +12,10 @@ define(
         "click #save": "saveClick"
       },
 
+      initialize: function() {
+        this.listenTo(this.model, 'invalid', this.showErrors);
+      },
+
       render: function() {
         this.$el.html(this.template());
 
@@ -19,7 +23,7 @@ define(
         this.$description = this.$("#description");
         this.$price = this.$("#price");
         this.$salePrice = this.$("#salePrice");
-        this.isOnSale = this.$("#isOnSale").is(":checked");
+        this.$isOnSale = this.$("#isOnSale");
 
         return this;
       },
@@ -29,19 +33,23 @@ define(
       },
 
       saveClick: function(e) {
-        var bracelet = new Bracelet({
+        this.model.set({
           name: this.$name.val(),
           description: this.$description.val(),
-          price: this.$price.val(),
+          price: parseFloat(Number(this.$price.val().replace(/[^0-9\.]+/g,""))),
           salePrice: this.$salePrice.val(),
-          isOnSale: this.isOnSale
+          isOnSale: this.$isOnSale.is(":checked")
         });
 
-        if (bracelet.isValid()) {
+        if (this.model.isValid()) {
           console.log("valid");
         } else {
           console.log("invalid!");
         }
+      },
+
+      showErrors: function(model, errors) {
+        console.log("show errors");
       }
     });
 

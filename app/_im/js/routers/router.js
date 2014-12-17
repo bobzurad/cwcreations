@@ -1,10 +1,10 @@
 define(
   ['jquery', 'backbone',
-    'models/rootRef',
+    'models/rootRef', 'models/bracelet',
     'collections/bracelets',
     'views/login', 'views/list', 'views/menu', 'views/addBracelet'
   ],
-  function($, Backbone, RootRef, Bracelets, LoginView, ListView, MenuView, AddBraceletView) {
+  function($, Backbone, RootRef, Bracelet, Bracelets, LoginView, ListView, MenuView, AddBraceletView) {
     //TODO: this router is doing too much.
     //  Bracelets, ListView and MenuView shouldn't be loaded unless we're authenticated with firebase.
     //  Perhaps make login it's own app? Or give login it's own router?
@@ -23,7 +23,7 @@ define(
         this.LoginView = new LoginView({ model: RootRef });
         this.ListView = new ListView({ collection: Bracelets });
         this.MenuView = new MenuView({ model: RootRef });
-        this.AddBraceletView = new AddBraceletView();
+        this.AddBraceletView = new AddBraceletView({ model: new Bracelet() });
 
         //always render menu when authenticated
         if (RootRef.firebase.getAuth()) {
