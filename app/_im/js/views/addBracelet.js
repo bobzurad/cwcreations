@@ -1,6 +1,6 @@
 define(
-  ['jquery', 'underscore', 'backbone', 'models/bracelet', 'text!templates/addBracelet.html'],
-  function($, _, Backbone, Bracelet, addBraceletTemplate) {
+  ['jquery', 'underscore', 'backbone', 'models/bracelet', 'collections/bracelets', 'text!templates/addBracelet.html'],
+  function($, _, Backbone, Bracelet, Bracelets, addBraceletTemplate) {
     'use strict';
 
     var AddBraceletView = Backbone.View.extend({
@@ -33,23 +33,31 @@ define(
       },
 
       saveClick: function(e) {
+        //set values on the model
         this.model.set({
           name: this.$name.val(),
           description: this.$description.val(),
           price: parseFloat(Number(this.$price.val().replace(/[^0-9\.]+/g,""))),
-          salePrice: this.$salePrice.val(),
+          salePrice: parseFloat(Number(this.$salePrice.val().replace(/[^0-9\.]+/g,""))),
           isOnSale: this.$isOnSale.is(":checked")
         });
 
+        //clear previous validation errors
+        this.$(".has-error").removeClass("has-error");
+        this.$(".validationMessage").text("");
+
+        //perform validation and save
         if (this.model.isValid()) {
-          console.log("valid");
-        } else {
-          console.log("invalid!");
+          Bracelets.create(this.model.attributes);
+          window.location.hash = "#/list";
         }
       },
 
       showErrors: function(model, errors) {
-        console.log("show errors");
+        _.each(errors, function(error) {
+          this.$("#" + error.attr).parent().addClass("has-error");
+          this.$("#" + error.attr).siblings().find(".validationMessage").text(error.msg);
+        }, this);
       }
     });
 

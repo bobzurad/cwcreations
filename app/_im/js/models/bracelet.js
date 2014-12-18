@@ -19,6 +19,10 @@ define(
           errors.push({ attr: "price", msg: "Price is invalid." });
         }
 
+        if (attrs.isOnSale && attrs.salePrice <= 0) {
+          errors.push({ attr: "salePrice", msg: "Sale Price is invalid." });
+        }
+
         if (errors.length > 0) {
           return errors;
         }

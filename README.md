@@ -1,6 +1,6 @@
 cwcreations
 ===========
-This is my own personal experiment at creating a web app using the node.js platform. I've spent my entire career building and supporting web applications with the .NET platform, so node.js is very new to me. This project is my way of learning something new. This project uses [Firebase](http://www.firebase.com) as a BaaS (Backend-as-a-Service) and [BackboneFire](https://github.com/firebase/backbonefire) to sync data with Firebase. The goal of this project is to create an application that my wife can use to sell her handmade creations online.
+This is my own personal experiment at creating a native web application using the node.js platform. I've spent my entire career building and supporting web applications with the .NET platform, so node.js is very new to me. This project is my way of learning something new. This project uses [Firebase](http://www.firebase.com) as a BaaS (Backend-as-a-Service) and [BackboneFire](https://github.com/firebase/backbonefire) to sync data with Firebase. The goal of this project is to create an application that my wife can use to sell her handmade creations online.
 
 ##Development
 Developing this project requires

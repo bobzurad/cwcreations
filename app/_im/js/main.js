@@ -19,7 +19,7 @@ require.config({
     underscore: '../../libs/underscore',
     backbone: '../../libs/backbone',
     text: '../../libs/requirejs/text',
-    firebase: '../../libs/firebase',
+    firebase: '../../libs/firebase-debug',
     backbonefire: '../../libs/backbonefire',
     bootstrap: '../../libs/bootstrap/js/bootstrap'
   }
