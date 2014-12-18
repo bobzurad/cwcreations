@@ -4,7 +4,7 @@
   <h4>Bracelets</h4>
   <ul>
     <% _.each(bracelets, function(bracelet) { %>
-      <li><%= bracelet.get("name") %></li>
+      <li><a href="#/bracelet/<%= bracelet.id %>"><%= bracelet.get("name") %></a></li>
     <% }); %>
   </ul>
 </div>

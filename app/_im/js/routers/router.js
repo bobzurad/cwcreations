@@ -2,9 +2,9 @@ define(
   ['jquery', 'backbone',
     'models/rootRef', 'models/bracelet',
     'collections/bracelets',
-    'views/login', 'views/list', 'views/menu', 'views/addBracelet'
+    'views/login', 'views/list', 'views/menu', 'views/bracelet'
   ],
-  function($, Backbone, RootRef, Bracelet, Bracelets, LoginView, ListView, MenuView, AddBraceletView) {
+  function($, Backbone, RootRef, Bracelet, Bracelets, LoginView, ListView, MenuView, BraceletView) {
     //TODO: this router is doing too much.
     //  Bracelets, ListView and MenuView shouldn't be loaded unless we're authenticated with firebase.
     //  Perhaps make login it's own app? Or give login it's own router?
@@ -12,7 +12,8 @@ define(
 
     var Workspace = Backbone.Router.extend({
       routes: {
-        "addBracelet": "addBracelet",
+        "bracelet": "bracelet",
+        "bracelet/:id": "bracelet",
         "list": "showList",
         "login": "showLogin",
         "logout": "logout",
@@ -23,7 +24,7 @@ define(
         this.LoginView = new LoginView({ model: RootRef });
         this.ListView = new ListView({ collection: Bracelets });
         this.MenuView = new MenuView({ model: RootRef });
-        this.AddBraceletView = new AddBraceletView({ model: new Bracelet() });
+        this.BraceletView = new BraceletView({ model: new Bracelet() });
 
         //always render menu when authenticated
         if (RootRef.firebase.getAuth()) {
@@ -40,7 +41,7 @@ define(
       showLogin: function() {
         this.ListView.removeTemplate();
         this.MenuView.removeTemplate();
-        this.AddBraceletView.removeTemplate();
+        this.BraceletView.removeTemplate();
         this.LoginView.render();
       },
       showList: function() {
@@ -48,17 +49,17 @@ define(
           this.navigate("#/login", { trigger: true });
         } else {
           this.LoginView.removeTemplate();
-          this.AddBraceletView.removeTemplate();
+          this.BraceletView.removeTemplate();
           this.MenuView.render();
           this.ListView.render();
         }
       },
-      addBracelet: function() {
+      bracelet: function(id) {
         if (RootRef.firebase.getAuth() === null) {
           this.navigate("#/login", { trigger: true });
         } else {
           this.ListView.removeTemplate();
-          this.AddBraceletView.render();
+          this.BraceletView.render(id);
         }
       },
       logout: function() {

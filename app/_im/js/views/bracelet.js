@@ -1,12 +1,12 @@
 define(
-  ['jquery', 'underscore', 'backbone', 'models/bracelet', 'collections/bracelets', 'text!templates/addBracelet.html'],
-  function($, _, Backbone, Bracelet, Bracelets, addBraceletTemplate) {
+  ['jquery', 'underscore', 'backbone', 'models/bracelet', 'collections/bracelets', 'text!templates/bracelet.html'],
+  function($, _, Backbone, Bracelet, Bracelets, braceletTemplate) {
     'use strict';
 
-    var AddBraceletView = Backbone.View.extend({
-      'el': '#addBracelet',
+    var BraceletView = Backbone.View.extend({
+      'el': '#bracelet',
 
-      template: _.template(addBraceletTemplate),
+      template: _.template(braceletTemplate),
 
       events: {
         "click #save": "saveClick"
@@ -14,10 +14,24 @@ define(
 
       initialize: function() {
         this.listenTo(this.model, 'invalid', this.showErrors);
+        this.listenTo(Bracelets, 'sync', this.modelLoaded);
       },
 
-      render: function() {
-        this.$el.html(this.template());
+      modelLoaded: function() {
+        if (window.location.hash.indexOf("bracelet") > 0) {
+          //TODO: there's got to be a better way to get the id of the model we're editing
+          this.render(window.location.hash.substr(11));
+        }
+      },
+
+      render: function(id) {
+        var model = {};
+
+        if (id && Bracelets.models.length > 0) {
+          this.$el.html(this.template({ model: Bracelets.get(id).attributes }));
+        } else {
+          this.$el.html(this.template({ model: {} }));
+        }
 
         this.$name = this.$("#name");
         this.$description = this.$("#description");
@@ -48,7 +62,15 @@ define(
 
         //perform validation and save
         if (this.model.isValid()) {
-          Bracelets.create(this.model.attributes);
+          if (window.location.hash.indexOf("bracelet/") > 0) {
+            //edit
+            //TODO: there's got to be a better way to get the id of the model we're editing
+            Bracelets.get(window.location.hash.substr(11)).firebase.set(this.model.attributes);
+          } else {
+            //create
+            Bracelets.create(this.model.attributes);
+          }
+
           window.location.hash = "#/list";
         }
       },
@@ -61,6 +83,6 @@ define(
       }
     });
 
-    return AddBraceletView;
+    return BraceletView;
   }
 );
