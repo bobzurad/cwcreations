@@ -10,11 +10,15 @@ define(
 
       events: {
         "click #googleLogin": "authWithGoogle",
-        "click #facebookLogin": "authWithFacebook"
+        "click #facebookLogin": "authWithFacebook",
+        "click #passwordLogin": 'authWithPassword'
       },
 
       render: function() {
         this.$el.html(this.template());
+
+        this.$email = this.$("#inputEmail");
+        this.$password = this.$("#inputPassword");
 
         return this;
       },
@@ -31,14 +35,35 @@ define(
         this._login("facebook");
       },
 
+      authWithPassword: function() {
+        this._login('password');
+      },
+
       _login: function(provider) {
-        this.model.firebase.authWithOAuthPopup(provider, function(error, authData) {
-          if (error) {
-            $("#error").html(error.message);
-          } else {
-            window.location.hash = "#/list";  //we don't have access to router here, so can't call .navigate()
-          }
-        });
+        var self = this;
+
+        if (provider === 'password') {
+          //email & password auth
+          this.model.firebase.authWithPassword({
+            email: this.$email.val(),
+            password: this.$password.val()
+          }, function(error, authData) {
+            self._loginCallback(error, authData);
+          })
+        } else {
+          //google & facebook auth
+          this.model.firebase.authWithOAuthPopup(provider, function(error, authData) {
+            self._loginCallback(error, authData);
+          });
+        }
+      },
+
+      _loginCallback: function(error, authData) {
+        if (error) {
+          $("#error").html(error.message);
+        } else {
+          window.location.hash = "#/list";  //we don't have access to router here, so can't call .navigate()
+        }
       }
 
     });
