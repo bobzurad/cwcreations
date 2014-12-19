@@ -17,20 +17,36 @@ $ npm install
 $ bower install
 ```
 
-###Configuration
-The only thing that needs to be configured is the location of the firebase app. I currently have that set in app/js/models/common.js
+###Running on localhost
+You can run this application locally at http://localhost:8001 by running:
+```bash
+$ npm start
+```
+
+If you need to run this application at a different port you can change it in package.json.
+```json
+"start": "http-server ./app -a localhost -p 8001",
+```
+
+###Configuration and Firebase Schema
+This project uses Firebase as a BaaS. You can configure this application to point to your own firebase by changing the FirebaseUrl in app/js/models/common.js
 
 ```javascript
 FirebaseUrl: 'https://cwcreations.firebaseio.com/',
 ```
 
-###Running this app
-You can run the app locally at http://localhost:8001 by running:
-```bash
-$ npm start
-```
-
-If you need to run the app at a different port you can change it in package.json.
+This application expects a Firebase with the following schema. Note that an example record is shown (with an auto-generated key) for each collection. 
 ```json
-"start": "http-server ./app -a localhost -p 8001",
+{
+  "bracelets" : {
+    "-JdYHWmQGGO9oIn-NQ1s" : {
+      "description" : "some description",
+      "isOnSale" : false,
+      "name" : "Chainmaille Bracelet",
+      "price" : 28.95,
+      "salePrice" : 18.95,
+      "tileImage" : "image.png"
+    }
+  }
+}
 ```
