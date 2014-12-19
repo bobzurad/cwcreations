@@ -8,6 +8,7 @@ Developing this project requires
 * [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm)
 * [bower](http://bower.io)
 * A [firebase](http://www.firebase.com) account
+  * Only needed if you want to write to your own firebase.
 
 ###Installation
 Once you've cloned this repository, cd to it's location and run:
@@ -35,7 +36,7 @@ This project uses Firebase as a BaaS. You can configure this application to poin
 FirebaseUrl: 'https://cwcreations.firebaseio.com/',
 ```
 
-This application expects a Firebase with the following schema. Note that an example record is shown (with an auto-generated key) for each collection. 
+This application expects a firebase with the following schema. Note that an example record is shown (with an auto-generated key) for each collection.
 ```json
 {
   "bracelets" : {
@@ -50,3 +51,4 @@ This application expects a Firebase with the following schema. Note that an exam
   }
 }
 ```
+Access to the Inventory Management application (located at /app/_im) will require you to enable [Email & Password authentication](https://www.firebase.com/docs/web/guide/login/password.html) on your firebase.
