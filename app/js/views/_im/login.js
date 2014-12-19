@@ -1,5 +1,5 @@
 define(
-  ['jquery','underscore', 'backbone', 'text!templates/login.html'],
+  ['jquery','underscore', 'backbone', 'text!templates/_im/login.html'],
   function ($, _, Backbone, loginTemplate) {
     'use strict';
 

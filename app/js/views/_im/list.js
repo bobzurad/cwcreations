@@ -1,5 +1,5 @@
 define(
-  ['jquery','underscore', 'backbone', 'text!templates/list.html'],
+  ['jquery','underscore', 'backbone', 'text!templates/_im/list.html'],
   function ($, _, Backbone, listTemplate) {
     'use strict';
 

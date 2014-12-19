@@ -1,8 +1,8 @@
 define(
   ['jquery', 'backbone',
-    'models/rootRef', 'models/bracelet',
-    'collections/bracelets',
-    'views/login', 'views/list', 'views/menu', 'views/bracelet'
+  'models/rootRef', 'models/bracelet',
+  'collections/bracelets',
+  'views/_im/login', 'views/_im/list', 'views/_im/menu', 'views/_im/bracelet'
   ],
   function($, Backbone, RootRef, Bracelet, Bracelets, LoginView, ListView, MenuView, BraceletView) {
     //TODO: this router is doing too much.

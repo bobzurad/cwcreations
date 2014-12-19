@@ -1,5 +1,8 @@
 define(
-  ['jquery', 'underscore', 'backbone', 'models/bracelet', 'collections/bracelets', 'text!templates/bracelet.html'],
+  ['jquery', 'underscore', 'backbone',
+  'models/bracelet',
+  'collections/bracelets',
+  'text!templates/_im/bracelet.html'],
   function($, _, Backbone, Bracelet, Bracelets, braceletTemplate) {
     'use strict';
 
