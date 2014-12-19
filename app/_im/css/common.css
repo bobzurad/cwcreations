@@ -1,3 +1,7 @@
+body {
+  background-color: #eee;  
+}
+
 #error {
   margin-top: 20px;
   color: #fff;
