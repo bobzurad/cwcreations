@@ -1,10 +1,10 @@
 define(
-  ['underscore', 'backbone', 'firebaseConfig', 'firebase', 'backbonefire'],
-  function(_, Backbone, firebaseConfig) {
+  ['underscore', 'backbone', 'models/common', 'firebase', 'backbonefire'],
+  function(_, Backbone, Common) {
     'use strict';
 
     var RootRef = Backbone.Firebase.Model.extend({
-      url: firebaseConfig.url
+      url: Common.FirebaseUrl
     });
 
     return new RootRef();

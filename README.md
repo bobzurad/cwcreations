@@ -18,12 +18,10 @@ $ bower install
 ```
 
 ###Configuration
-The only thing that needs to be configured is the location of the firebase app. I currently have that set in im/js/main.js
+The only thing that needs to be configured is the location of the firebase app. I currently have that set in app/js/models/common.js
 
 ```javascript
-define('firebaseConfig', {
-  url: 'https://cwcreations.firebaseio.com/'
-});
+FirebaseUrl: 'https://cwcreations.firebaseio.com/',
 ```
 
 ###Running this app

@@ -1,6 +1,6 @@
 define(
-  ['jquery','underscore', 'backbone', 'text!templates/_im/login.html'],
-  function ($, _, Backbone, loginTemplate) {
+  ['jquery','underscore', 'backbone', 'models/common', 'text!templates/_im/login.html'],
+  function ($, _, Backbone, Common, loginTemplate) {
     'use strict';
 
     var LoginView = Backbone.View.extend({
@@ -27,7 +27,7 @@ define(
       },
 
       authOnEnter: function(e) {
-        if (e.keyCode === 13) { //13 is enter key
+        if (e.keyCode === Common.ENTER_KEY) {
           this.authWithPassword();
         }
       },
