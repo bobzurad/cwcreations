@@ -16,7 +16,6 @@ define(
       },
 
       initialize: function() {
-        this.listenTo(this.model, 'invalid', this.showErrors);
         this.listenTo(Bracelets, 'sync', this.modelLoaded);
       },
 
@@ -28,13 +27,15 @@ define(
       },
 
       render: function(id) {
-        var model = {};
-
         if (id && Bracelets.models.length > 0) {
-          this.$el.html(this.template({ model: Bracelets.get(id).attributes }));
+          this.model = Bracelets.get(id);
+          this.$el.html(this.template({ model: this.model.attributes }));
         } else {
+          this.model = new Bracelet();
           this.$el.html(this.template({ model: {} }));
         }
+
+        this.listenTo(this.model, 'invalid', this.showErrors);        
 
         this.$name = this.$("#name");
         this.$description = this.$("#description");
@@ -65,14 +66,9 @@ define(
 
         //perform validation and save
         if (this.model.isValid()) {
-          if (window.location.hash.indexOf("bracelet/") > 0) {
-            //edit
-            //TODO: there's got to be a better way to get the id of the model we're editing
-            Bracelets.get(window.location.hash.substr(11)).firebase.set(this.model.attributes);
-          } else {
-            //create
-            Bracelets.create(this.model.attributes);
-          }
+          //if the collection contains a model with the same .attributes.id,
+          //firebase will update the existing model in the colleciton, rather than add a new model
+          Bracelets.create(this.model.attributes);
 
           window.location.hash = "#/list";
         }
