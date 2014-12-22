@@ -49,6 +49,10 @@ define(
           this.$isOnSale.prop("checked", "checked");
         }
 
+        if (this.model.get("thumbnail")) {
+          this.$thumbnail.prop("src", this.model.get("thumbnail"));
+        }
+
         this.$fileUpload.on("change", $.proxy(this.readImage, this));
 
         return this;
