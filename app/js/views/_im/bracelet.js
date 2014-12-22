@@ -35,13 +35,21 @@ define(
           this.$el.html(this.template({ model: {} }));
         }
 
-        this.listenTo(this.model, 'invalid', this.showErrors);        
+        this.listenTo(this.model, 'invalid', this.showErrors);
 
         this.$name = this.$("#name");
         this.$description = this.$("#description");
         this.$price = this.$("#price");
         this.$salePrice = this.$("#salePrice");
         this.$isOnSale = this.$("#isOnSale");
+        this.$fileUpload = this.$("#fileUpload");
+        this.$thumbnail = this.$("#thumbnail");
+
+        if (this.model.get("isOnSale")) {
+          this.$isOnSale.prop("checked", "checked");
+        }
+
+        this.$fileUpload.on("change", $.proxy(this.readImage, this));
 
         return this;
       },
@@ -79,6 +87,24 @@ define(
           this.$("#" + error.attr).parent().addClass("has-error");
           this.$("#" + error.attr).siblings().find(".validationMessage").text(error.msg);
         }, this);
+      },
+
+      readImage: function(e) {
+        var self = this;
+        var file = e.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          self.model.set({
+            thumbnail: reader.result
+          });
+
+          self.$thumbnail.prop("src", reader.result);
+        }
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
       }
     });
 

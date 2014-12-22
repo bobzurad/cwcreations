@@ -26,8 +26,7 @@
         </div>
         <div class="checkbox">
           <label>
-            <!--TODO: assignment of checked attribute is wrong -->
-            <input type="checkbox" id="isOnSale" checked="<%= model.isOnSale ? 'checked' : '' %>"> Is On Sale
+            <input type="checkbox" id="isOnSale"> Is On Sale
           </label>
         </div>
         <div class="form-group">
@@ -41,9 +40,12 @@
       </div>
       <div class="col-sm-6">
         <h4>Photos</h4>
+        <small>Note: Photos are limited to 10MB each</small>
         <div class="form-group">
-          <label for="exampleInputFile"></label>
-          <input type="file" id="exampleInputFile">
+          <label for="fileUpload"></label>
+          <input type="file" accept="image/*" id="fileUpload">
+          <br/>
+          <img id="thumbnail" src="<%= model.thumbnail %>">
         </div>
       </div>
     </form>
