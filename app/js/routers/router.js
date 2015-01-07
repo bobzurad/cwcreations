@@ -1,10 +1,9 @@
 define(
   ['jquery', 'backbone',
-  'models/rootRef', 'models/bracelet',
-  'collections/bracelets',
-  'views/list'
+  'models/rootRef',
+  'views/menu', 'views/productDetail'
   ],
-  function($, Backbone, RootRef, Bracelet, Bracelets, ListView) {
+  function($, Backbone, RootRef, MenuView, ProductDetailView) {
     'use strict';
 
     var Workspace = Backbone.Router.extend({
@@ -13,13 +12,12 @@ define(
       },
       initialize: function() {
         //this function runs on every page load
-        this.ListView = new ListView({ collection: Bracelets });
+        this.MenuView = new MenuView();
+        this.ProductDetailView = new ProductDetailView();
       },
       defaultRoute: function() {
-        this.showList();
-      },
-      showList: function() {
-        this.ListView.render();
+        this.MenuView.render();
+        this.ProductDetailView.render();
       }
     });
 
