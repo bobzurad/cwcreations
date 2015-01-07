@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 text-center">
+      <h3 class="hidden-xs">Custom Handmade Creations</h3>
+      <h4 class="visible-xs">Custom Handmade Creations</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-6 col-lg-8">
+      @foreach(var tile in Model)
+      {
+        @Html.Partial("_ProductTile", tile)
+      }
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-6 col-lg-4">
+      <p class="lead">
+        Hello! I'm Corinne, and I've been making handmade jewelry since I was a kid.
+      </p>
+      <p class="lead">
+        I have a great passion for handmade jewelry and paper crafts.
+      </p>
+      <p class="lead">
+        Please bear with me while my awesome husband finishes building my website. Once it's finished I'll be able to take your orders and create a custom item specially for you!
+      </p>
+      <!--
+        <p class="lead">
+          Please take a moment to browse through my inventory. If you don't see anything that doesn't quite match what you're looking for <a href="#">drop me a message,</a> and I'll glady make a piece specially for you!
+        </p>
+      -->
+      <p>Thanks for visiting!</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="container-item">
+  <div class="productTile" style="background-image: url('/img/inventory/@Model.ImageFileName')">
+    <div class="productTile-overlay">
+      @if (Model.IsOnSale) {
+        <div class="productTile-sale-tag"><span>SALE</span></div>
+      }
+    </div>
+    <div class="productTile-content">
+      <div class="productTile-top-content">
+        <div class="productTile-top-content-inner">
+          <div class="productTile-product">
+            <div class="productTile-top-title">
+              <h2>@Model.Name</h2>
+              <p class="subdescription">@Model.Description</p>
+            </div>
+          </div>
+          <div class="productTile-product-price">
+            @if (Model.IsOnSale) {
+              <span class="price-num">@Model.SalePrice</span>
+              <p class="subdescription">@Model.Price</p>
+              <div class="old-price"></div>
+            } else {
+              <span class="price-num">@Model.Price</span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="productTile-add-content">
+        <div class="productTile-add-content-inner">
+          <div class="section">
+            <button type="button"
+              class="btn btn-default btnMorePhotos"
+              data-productid="@Model.Id"
+              data-productname="@Model.Name">
+              More Info
+            </button>
+            <button type="button"
+              class="btn btn-default btnBuyNow"
+              data-productid="@Model.Id">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="container">
+  <h3>Cart</h3>
+
+  @if (Model.Items.Count == 0)
+  {
+    <p>Your cart is empty.</p>
+  }
+  else
+  {
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model.Items) {
+          <tr>
+            <td><img src="http://placehold.it/140x100"></td>
+            <td>@item.ProductName</td>
+            <td>@item.ProductDescription</td>
+            <td>@item.Price</td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><button type="button" class="btn btn-primary btn-block">Checkout</button></td>
+        </tr>
+      </tfoot>
+    </table>
+  }
+</div>

@@ -1,0 +1,30 @@
+/* hacks to make grid look centered */
+
+/* xs */
+@media(max-width: 768px) {
+  .productTile {
+    margin: 0 auto;
+  }
+  .container-item {
+    float:none;
+  }
+}
+
+/* sm */
+@media(min-width: 769px) and (max-width: 991px) {
+  .productTile {
+    margin: 0 auto;
+  }
+  .container-item {
+    float:left;
+    padding-right: 0px;
+  }
+}
+
+/* md */
+@media(min-width: 992px) and (max-width:1199px) {
+  .container-item {
+    float: right;
+    padding-right: 90px;
+  }
+}

@@ -1,0 +1,14 @@
+<link href="css/grid/css" rel="stylesheet" type="text/css"/>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6">
+      <h3 class="hidden-xs">Pendants</h3>
+      <h4 class="visible-xs">Pendants</h4>
+    </div>
+  </div>
+  @foreach (var tile in Model)
+  {
+    @Html.Partial("_ProductTile", tile)
+  }
+</div>
