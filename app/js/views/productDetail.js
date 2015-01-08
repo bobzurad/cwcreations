@@ -4,7 +4,7 @@ define(
     'use strict';
 
     var ProductDetailView = Backbone.View.extend({
-      el: '#productDetailView',
+      el: '#viewContainer',
 
       template: _.template(productDetailTemplate),
 
