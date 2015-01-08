@@ -4,7 +4,7 @@ define(
     'use strict';
 
     var ListView = Backbone.View.extend({
-      el: '#inventory',
+      el: '#viewContainer',
 
       template: _.template(listTemplate),
 
@@ -24,12 +24,8 @@ define(
         }
 
         return this;
-      },
-
-      removeTemplate: function() {
-        this.$el.children().remove();
       }
-
+      
     });
 
     return ListView;

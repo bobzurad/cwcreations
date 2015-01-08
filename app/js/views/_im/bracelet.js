@@ -7,7 +7,7 @@ define(
     'use strict';
 
     var BraceletView = Backbone.View.extend({
-      'el': '#bracelet',
+      'el': '#viewContainer',
 
       template: _.template(braceletTemplate),
 
@@ -56,10 +56,6 @@ define(
         this.$fileUpload.on("change", $.proxy(this.readImage, this));
 
         return this;
-      },
-
-      removeTemplate: function() {
-        this.$el.children().remove();
       },
 
       saveClick: function(e) {

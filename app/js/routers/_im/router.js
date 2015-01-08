@@ -6,12 +6,6 @@ define(
   ],
   function($, Backbone, RootRef, Bracelets, LoginView, ListView, MenuView, BraceletView) {
     'use strict';
-    //TODO: this router is doing too much.
-    //  Bracelets, ListView and MenuView shouldn't be loaded unless we're authenticated with firebase.
-    //  Perhaps make login it's own app? Or give login it's own router?
-
-    //TODO: I don't like how the route functions are basically show/hiding templates.
-    //  Is there a better way? Other than load all views and show/hide the proper views?
 
     var Workspace = Backbone.Router.extend({
       routes: {
@@ -42,17 +36,13 @@ define(
         }
       },
       showLogin: function() {
-        this.ListView.removeTemplate();
         this.MenuView.removeTemplate();
-        this.BraceletView.removeTemplate();
         this.LoginView.render();
       },
       showList: function() {
         if (RootRef.firebase.getAuth() === null) {
           this.navigate("#/login", { trigger: true });
         } else {
-          this.LoginView.removeTemplate();
-          this.BraceletView.removeTemplate();
           this.MenuView.render();
           this.ListView.render();
         }
@@ -61,7 +51,6 @@ define(
         if (RootRef.firebase.getAuth() === null) {
           this.navigate("#/login", { trigger: true });
         } else {
-          this.ListView.removeTemplate();
           this.BraceletView.render(id);
         }
       },

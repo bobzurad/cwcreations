@@ -4,7 +4,7 @@ define(
     'use strict';
 
     var LoginView = Backbone.View.extend({
-      el: '#loginContainer',
+      el: '#viewContainer',
 
       template: _.template(loginTemplate),
 
@@ -20,10 +20,6 @@ define(
         this.$password = this.$("#inputPassword");
 
         return this;
-      },
-
-      removeTemplate: function() {
-        this.$el.children().remove();
       },
 
       authOnEnter: function(e) {
