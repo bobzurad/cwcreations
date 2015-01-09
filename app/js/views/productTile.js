@@ -4,12 +4,12 @@ define(
     'use strict';
 
     var ProductTileView = Backbone.View.extend({
-      el: '.productTileContainer',
+      el: '.container-item',
 
       template: _.template(productTileTemplate),
 
       render: function() {
-        this.$el.html(this.template());
+        this.$el.html(this.template({ model: this.model.attributes }));
 
         return this;
       }

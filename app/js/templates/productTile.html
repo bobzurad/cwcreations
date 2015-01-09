@@ -1,27 +1,31 @@
 <div class="container-item">
-  <div class="productTile" style="background-image: url('/img/inventory/@Model.ImageFileName')">
+  <% if (model.thumbnail !== undefined) { %>
+    <div class="productTile" style="background-image: url(<%=model.thumbnail%>)">
+  <% } else { %>
+    <div class="productTile">
+  <% } %>
     <div class="productTile-overlay">
-      @if (Model.IsOnSale) {
+      <% if (model.isOnSale) { %>
         <div class="productTile-sale-tag"><span>SALE</span></div>
-      }
+      <% } %>
     </div>
     <div class="productTile-content">
       <div class="productTile-top-content">
         <div class="productTile-top-content-inner">
           <div class="productTile-product">
             <div class="productTile-top-title">
-              <h2>@Model.Name</h2>
-              <p class="subdescription">@Model.Description</p>
+              <h2><%=model.name%></h2>
+              <p class="subdescription"><%=model.description%></p>
             </div>
           </div>
           <div class="productTile-product-price">
-            @if (Model.IsOnSale) {
-              <span class="price-num">@Model.SalePrice</span>
-              <p class="subdescription">@Model.Price</p>
+            <% if (model.isOnSale) { %>
+              <span class="price-num"><%=model.salePrice%></span>
+              <p class="subdescription"><%=model.price%></p>
               <div class="old-price"></div>
-            } else {
-              <span class="price-num">@Model.Price</span>
-            }
+            <% } else { %>
+              <span class="price-num"><%=model.price%></span>
+            <% } %>
           </div>
         </div>
       </div>
@@ -30,13 +34,13 @@
           <div class="section">
             <button type="button"
               class="btn btn-default btnMorePhotos"
-              data-productid="@Model.Id"
-              data-productname="@Model.Name">
+              data-productid="<%=model.id%>"
+              data-productname="<%=model.name%>">
               More Info
             </button>
             <button type="button"
               class="btn btn-default btnBuyNow"
-              data-productid="@Model.Id">
+              data-productid="<%=model.id%>">
               Add to Cart
             </button>
           </div>

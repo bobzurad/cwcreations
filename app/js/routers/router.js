@@ -1,9 +1,11 @@
 define(
   ['jquery', 'backbone',
   'models/rootRef',
+  'collections/bracelets',
   'views/menu', 'views/home', 'views/about', 'views/cart', 'views/contact', 'views/grid'
   ],
-  function($, Backbone, RootRef, MenuView, HomeView, AboutView, CartView, ContactView, GridView) {
+  function($, Backbone, RootRef, Bracelets,
+    MenuView, HomeView, AboutView, CartView, ContactView, GridView) {
     'use strict';
 
     var Workspace = Backbone.Router.extend({
@@ -20,7 +22,7 @@ define(
       initialize: function() {
         //this function runs on every page load
         this.MenuView = new MenuView();
-        this.HomeView = new HomeView();
+        this.HomeView = new HomeView({ collection: Bracelets });
         this.AboutView = new AboutView();
         this.CartView = new CartView();
         this.ContactView = new ContactView();
