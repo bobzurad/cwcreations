@@ -34,6 +34,7 @@ require(
     new Workspace();
     Backbone.history.start();
 
+/*
     $(document).ready(function () {
       $("button.btnMorePhotos").off().on("click", ShowProductDetailModal);
       $("button.btnBuyNow").off().on("click", AddItemToCart);
@@ -57,7 +58,7 @@ require(
       };
 
       function AddItemToCart() {
-        /* Post, Redirect, Get */
+        //Post, Redirect, Get
         $.ajax({
           type: "POST",
           url: "/api/Cart/AddToCart",
@@ -72,5 +73,6 @@ require(
         });
       };
     });
+*/
   }
 );

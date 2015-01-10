@@ -22,34 +22,39 @@ define(
       initialize: function() {
         //this function runs on every page load
         this.MenuView = new MenuView();
-        this.HomeView = new HomeView({ collection: Bracelets });
-        this.AboutView = new AboutView();
-        this.CartView = new CartView();
-        this.ContactView = new ContactView();
-        this.GridView = new GridView();
       },
 
       defaultRoute: function() {
+        this.HomeView = new HomeView({ collection: Bracelets });
+
         this.MenuView.render();
         this.HomeView.render();
       },
 
       aboutRoute: function() {
+        this.AboutView = new AboutView();
+
         this.MenuView.render();
         this.AboutView.render();
       },
 
       cartRoute: function() {
+        this.CartView = new CartView();
+
         this.MenuView.render();
         this.CartView.render();
       },
 
       contactRoute: function() {
+        this.ContactView = new ContactView();
+
         this.MenuView.render();
         this.ContactView.render();
       },
 
       gridRoute: function() {
+        this.GridView = new GridView({ collection: Bracelets });
+        
         this.MenuView.render();
         this.GridView.render();
       }

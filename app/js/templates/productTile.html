@@ -2,7 +2,7 @@
   <% if (model.thumbnail !== undefined) { %>
     <div class="productTile" style="background-image: url(<%=model.thumbnail%>)">
   <% } else { %>
-    <div class="productTile">
+    <div class="productTile" style="background-image: url(http://placehold.it/360x320)">
   <% } %>
     <div class="productTile-overlay">
       <% if (model.isOnSale) { %>

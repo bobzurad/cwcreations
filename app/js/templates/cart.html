@@ -1,12 +1,6 @@
 <div class="container">
   <h3>Cart</h3>
 
-  @if (Model.Items.Count == 0)
-  {
-    <p>Your cart is empty.</p>
-  }
-  else
-  {
     <table class="table">
       <thead>
         <tr>
@@ -17,14 +11,12 @@
         </tr>
       </thead>
       <tbody>
-        @foreach (var item in Model.Items) {
           <tr>
-            <td><img src="http://placehold.it/140x100"></td>
-            <td>@item.ProductName</td>
-            <td>@item.ProductDescription</td>
-            <td>@item.Price</td>
+            <td><img src="http://placehold.it/180x120"></td>
+            <td>Chainmaille Bracelet</td>
+            <td>Blue & Silver</td>
+            <td>$17.95</td>
           </tr>
-        }
       </tbody>
       <tfoot>
         <tr>
@@ -35,5 +27,5 @@
         </tr>
       </tfoot>
     </table>
-  }
+
 </div>

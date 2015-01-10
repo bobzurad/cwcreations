@@ -27,12 +27,11 @@ define(
       renderTiles: function() {
         var self = this;
 
-        this.$tileContainer.children().remove();
+        this.$tileContainer.empty();
 
         this.collection.each(function(bracelet) {
-          self.$tileContainer.append('<div class="container-item"></div>');
           var view = new ProductTileView({ model: bracelet });
-          view.render();
+          self.$tileContainer.append(view.render().el);
         });
       }
 

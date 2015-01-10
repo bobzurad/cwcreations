@@ -8,10 +8,18 @@ define(
 
       template: _.template(productDetailTemplate),
 
+      events: {
+        'click button.btnBuyNow': 'addToCart'
+      },
+
       render: function() {
         this.$el.html(this.template());
 
         return this;
+      },
+
+      addToCart: function() {
+        
       }
 
     });
