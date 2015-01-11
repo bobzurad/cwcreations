@@ -12,7 +12,7 @@ require.config({
       exports: 'Backbone'
     },
     bootstrap : { deps: ['jquery'] },
-    backbonefire: {deps: ['backbone'] }
+    backbonefire: { deps: ['backbone'] }
   },
   paths: {
     jquery: '../libs/jquery',
@@ -33,46 +33,5 @@ require(
     // Initialize routing and start Backbone.history()
     new Workspace();
     Backbone.history.start();
-
-/*
-    $(document).ready(function () {
-      $("button.btnMorePhotos").off().on("click", ShowProductDetailModal);
-      $("button.btnBuyNow").off().on("click", AddItemToCart);
-
-      function ShowProductDetailModal() {
-        $("#productDetailModal").modal();
-
-        $("#productDetailModal .modal-title").text($(this).data("productname"));
-
-        $.ajax({
-          type: "GET",
-          url: "/_ProductDetail",
-          data: { id: $(this).data("productid") },
-          success: function (data, textStatus, jqXHR) {
-            $("#productDetailModal .modal-body").html(data);
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-          }
-        });
-      };
-
-      function AddItemToCart() {
-        //Post, Redirect, Get
-        $.ajax({
-          type: "POST",
-          url: "/api/Cart/AddToCart",
-          contentType: 'application/json; charset=utf-8',
-          data: JSON.stringify({ productId: $(this).data("productid") }),
-          success: function (data, textStatus, jqXHR) {
-            window.location = data;
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-          }
-        });
-      };
-    });
-*/
   }
 );

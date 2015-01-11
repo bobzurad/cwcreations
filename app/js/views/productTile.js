@@ -1,6 +1,6 @@
 define(
-  ['jquery', 'underscore', 'backbone', 'text!templates/productTile.html', 'views/productDetail'],
-  function($, _, Backbone, productTileTemplate, ProductDetailView) {
+  ['jquery', 'underscore', 'backbone', 'text!templates/productTile.html'],
+  function($, _, Backbone, productTileTemplate) {
     'use strict';
 
     var ProductTileView = Backbone.View.extend({
@@ -9,12 +9,11 @@ define(
 
       //this runs on page load
       initialize: function() {
-        this.$productDetailModal = $("#productDetailModal");
+
       },
 
       events: {
-        'click button.btnBuyNow': 'addToCart',
-        'click button.btnMorePhotos': 'showModal'
+        'click button.btnBuyNow': 'addToCart'
       },
 
       render: function() {
@@ -25,16 +24,6 @@ define(
 
       addToCart: function(e) {
         window.location.hash = '#/cart';
-      },
-
-      showModal: function(e) {
-        var view = new ProductDetailView();
-
-        this.$productDetailModal.find(".modal-title").text($(this).data("productname"));
-        //TODO: view isn't ready to be rendered yet
-        //this.$productDetailModal.find(".modal-body").html(view.render().el);
-
-        this.$productDetailModal.modal();
       }
 
     });

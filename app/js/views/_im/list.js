@@ -17,15 +17,14 @@ define(
 
         if (auth && window.location.hash.indexOf("list") >= 0) {
           this.$el.html(this.template({
-            //TODO: this is hardcoded to facebook
-            name: auth.facebook === undefined ? auth.password.email : auth.facebook.displayName,
+            name: auth.password.email,
             bracelets: this.collection.models
           }));
         }
 
         return this;
       }
-      
+
     });
 
     return ListView;

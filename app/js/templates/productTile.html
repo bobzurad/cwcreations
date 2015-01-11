@@ -32,12 +32,11 @@
       <div class="productTile-add-content">
         <div class="productTile-add-content-inner">
           <div class="section">
-            <button type="button"
+            <a role="button"
               class="btn btn-default btnMorePhotos"
-              data-productid="<%=model.id%>"
-              data-productname="<%=model.name%>">
+              href="#/detail/<%=model.id%>">
               More Info
-            </button>
+            </a>
             <button type="button"
               class="btn btn-default btnBuyNow"
               data-productid="<%=model.id%>">
