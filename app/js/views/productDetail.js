@@ -1,7 +1,7 @@
 define(
   ['jquery', 'underscore', 'backbone', 'text!templates/productDetail.html',
-  'collections/images'],
-  function($, _, Backbone, productDetailTemplate, Images) {
+  'models/common', 'collections/images'],
+  function($, _, Backbone, productDetailTemplate, Common, Images) {
     'use strict';
 
     var ProductDetailView = Backbone.View.extend({
@@ -10,8 +10,7 @@ define(
       template: _.template(productDetailTemplate),
 
       initialize: function() {
-        this.images = new Images(undefined, { id: this.model.id });
-        this.listenTo(this.images, 'sync', this.imagesLoaded);
+        this.listenTo(Images, 'sync', this.imagesLoaded);
       },
 
       events: {

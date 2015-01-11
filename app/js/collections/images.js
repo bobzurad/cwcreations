@@ -1,16 +1,14 @@
 define(
-  ['underscore', 'backbone', 'models/common', 'models/image', 'firebase', 'backbonefire'],
-  function(_, Backbone, Common, Image) {
+  ['underscore', 'backbone', 'models/image', 'models/common', 'firebase', 'backbonefire'],
+  function(_, Backbone, Image, Common) {
     'use strict';
 
     var ImagesCollection = Backbone.Firebase.Collection.extend({
       model: Image,
 
-      initialize: function(models, options) {
-        this.url = Common.FirebaseUrl + "images/" + options.id;
-      }
+      url: Common.FirebaseUrl + "images/" + "b1"
     });
 
-    return ImagesCollection;
+    return new ImagesCollection();
   }
 )
