@@ -6,7 +6,7 @@ define(
     var ImagesCollection = Backbone.Firebase.Collection.extend({
       model: Image,
 
-      url: Common.FirebaseUrl + "images/" + "b1"
+      url: Common.FirebaseUrl + "images"
     });
 
     return new ImagesCollection();
