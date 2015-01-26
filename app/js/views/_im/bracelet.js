@@ -42,7 +42,7 @@ define(
         this.$price = this.$("#price");
         this.$salePrice = this.$("#salePrice");
         this.$isOnSale = this.$("#isOnSale");
-        this.$fileUpload = this.$("#fileUpload");
+        this.$tileImageUpload = this.$("#tileImageUpload");
         this.$thumbnail = this.$("#thumbnail");
 
         if (this.model.get("isOnSale")) {
@@ -53,7 +53,7 @@ define(
           this.$thumbnail.prop("src", this.model.get("thumbnail"));
         }
 
-        this.$fileUpload.on("change", $.proxy(this.readImage, this));
+        this.$tileImageUpload.on("change", $.proxy(this.readImage, this));
 
         return this;
       },

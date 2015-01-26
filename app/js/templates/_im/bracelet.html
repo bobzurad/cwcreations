@@ -39,13 +39,24 @@
         <button id="save" type="button" class="btn btn-default">Save</button>
       </div>
       <div class="col-sm-6">
+        <h4>Tile Image</h4>
+        <small>Note: This image should be 360x320 in size</small>
+        <div class="form-group">
+          <label for="tileImageUpload"></label>
+          <input type="file" accept="image/*" id="tileImageUpload">
+          <br/>
+          <div class="text-center">
+            <img id="thumbnail">
+            <br/><br/>
+            <button type="button" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
         <h4>Photos</h4>
         <small>Note: Photos are limited to 10MB each</small>
         <div class="form-group">
           <label for="fileUpload"></label>
           <input type="file" accept="image/*" id="fileUpload">
           <br/>
-          <img id="thumbnail">
         </div>
       </div>
     </form>
