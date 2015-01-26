@@ -1,9 +1,10 @@
 define(
   ['jquery', 'underscore', 'backbone',
+  'models/common',
   'models/bracelet',
   'collections/bracelets',
   'text!templates/_im/bracelet.html'],
-  function($, _, Backbone, Bracelet, Bracelets, braceletTemplate) {
+  function($, _, Backbone, Common, Bracelet, Bracelets, braceletTemplate) {
     'use strict';
 
     var BraceletView = Backbone.View.extend({
@@ -12,7 +13,8 @@ define(
       template: _.template(braceletTemplate),
 
       events: {
-        "click #save": "saveClick"
+        "click #save": "saveClick",
+        "click .btn-danger": "deleteImage"
       },
 
       initialize: function() {
@@ -51,6 +53,9 @@ define(
 
         if (this.model.get("thumbnail")) {
           this.$thumbnail.prop("src", this.model.get("thumbnail"));
+        } else {
+          this.$thumbnail.prop("src", Common.DefaultThumbnailImage);
+          $(".btn-danger").hide();
         }
 
         this.$tileImageUpload.on("change", $.proxy(this.readImage, this));
@@ -105,6 +110,10 @@ define(
         if (file) {
           reader.readAsDataURL(file);
         }
+      },
+
+      deleteImage: function(e) {
+        //$(e.currentTarget).parent().find("img").prop("src")
       }
     });
 
