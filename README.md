@@ -46,7 +46,7 @@ This application expects a firebase with the following schema. Note that an exam
       "name" : "Chainmaille Bracelet",
       "price" : 28.95,
       "salePrice" : 18.95,
-      "tileImage" : "image.png"
+      "thumbnail" : "http://placehold.it/360x320"
     }
   }
 }
