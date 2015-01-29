@@ -33,6 +33,7 @@ define(
         if (id && Bracelets.models.length > 0) {
           this.model = Bracelets.get(id);
           this.$el.html(this.template({ model: this.model.attributes }));
+          this.$("#photosArea").show();
         } else {
           this.model = new Bracelet();
           this.$el.html(this.template({ model: {} }));
