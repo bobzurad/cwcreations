@@ -1,5 +1,13 @@
 <div class="container">
-  <h3>Bracelet</h3>
+  <div class="row">
+    <div class="col-xs-10">
+      <h3>Bracelet</h3>
+    </div>
+    <div class="col-xs-2">
+      <button id="deleteProductWarning" type="button" class="btn btn-danger" data-toggle="modal" data-target="#warningProductModal">
+        Delete
+      </button>
+    </div>
   <div class="row">
     <form role="form">
       <div class="col-sm-6">
@@ -38,7 +46,7 @@
         </div>
         <button id="save" type="button" class="btn btn-default">Save</button>
       </div>
-      <div id="photosArea" class="col-sm-6" style="display: none;">
+      <div class="col-sm-6 photoArea" style="display: none;">
         <h4>Tile Image</h4>
         <small>Note: This image should be 360x320 in size</small>
         <div class="form-group">
@@ -57,15 +65,18 @@
             </p>
           </div>
         </div>
-        <h4>Photos</h4>
-        <small>Note: Photos are limited to 10MB each</small>
-        <div class="form-group">
-          <label for="fileUpload"></label>
-          <input type="file" accept="image/*" id="fileUpload">
-          <br/>
-        </div>
       </div>
     </form>
+  </div>
+  <br/>
+  <div class="row photoArea" style="display: none;">
+    <h3>Photos</h3>
+    <small>Note: Photos are limited to 10MB each</small>
+    <div class="form-group">
+      <label for="fileUpload"></label>
+      <input type="file" accept="image/*" id="fileUpload">
+      <br/>
+    </div>
   </div>
 </div>
 <div id="warningModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
