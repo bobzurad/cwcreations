@@ -1,81 +1,91 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-10">
-      <h3>Bracelet</h3>
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active">
+        <a href="#form" aria-controls="form" role="tab" data-toggle="tab">Bracelet</a>
+      </li>
+      <li role="presentation">
+        <a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a>
+      </li>
+      <li role="presentation">
+        <a href="#dangerzone" aria-controls="dangerzone" role="tab" data-toggle="tab">Danger Zone</a>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div id="form" role="tabpanel" class="tab-pane active">
+      <form role="form">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <div>
+              <label for="name" class="control-label">Product Name</label>
+              <span class="control-label validationMessage"></span>
+            </div>
+            <input type="text" class="form-control" id="name" value="<%= model.name %>" placeholder="Product Name" autofocus>
+          </div>
+          <div class="form-group">
+            <div>
+              <label for="description" class="control-label">Description</label>
+              <span class="control-label validationMessage"></span>
+            </div>
+            <textarea class="form-control" rows="5" id="description" placeholder="Description"><%= model.description %></textarea>
+          </div>
+          <div class="form-group">
+            <div>
+              <label for="price" class="control-label">Price</label>
+              <span class="control-label validationMessage"></span>
+            </div>
+            <input type="text" class="form-control" id="price" value="<%= model.price %>">
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="isOnSale"> Is On Sale
+            </label>
+          </div>
+          <div class="form-group">
+            <div>
+              <label for="salePrice" class="control-label">Sale Price</label>
+              <span class="control-label validationMessage"></span>
+            </div>
+            <input type="text" class="form-control" id="salePrice" value="<%= model.salePrice %>">
+          </div>
+          <button id="save" type="button" class="btn btn-default">Save</button>
+        </div>
+        <div class="col-sm-6 photoArea" style="display: none;">
+          <h4>Tile Image</h4>
+          <small>Note: This image should be 360x320 in size</small>
+          <div class="form-group">
+            <p>
+              <label for="thumbnailUpload"></label>
+              <input type="file" accept="image/*" id="thumbnailUpload">
+            </p>
+            <div class="text-center">
+              <p>
+                <img id="thumbnail"/>
+              </p>
+              <p>
+                <button id="deleteWarning" type="button" class="btn btn-danger" data-toggle="modal" data-target="#warningModal">
+                  Delete
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-    <div class="col-xs-2">
+    <div id="images" role="tabpanel" class="tab-pane">
+      <h3>Photos</h3>
+      <small>Note: Photos are limited to 10MB each</small>
+      <div class="form-group">
+        <label for="fileUpload"></label>
+        <input type="file" accept="image/*" id="fileUpload">
+        <br/>
+      </div>
+    </div>
+    <div id="dangerzone" role="tabpanel" class="tab-pane">
       <button id="deleteProductWarning" type="button" class="btn btn-danger" data-toggle="modal" data-target="#warningProductModal">
         Delete
       </button>
-    </div>
-  <div class="row">
-    <form role="form">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <div>
-            <label for="name" class="control-label">Product Name</label>
-            <span class="control-label validationMessage"></span>
-          </div>
-          <input type="text" class="form-control" id="name" value="<%= model.name %>" placeholder="Product Name" autofocus>
-        </div>
-        <div class="form-group">
-          <div>
-            <label for="description" class="control-label">Description</label>
-            <span class="control-label validationMessage"></span>
-          </div>
-          <textarea class="form-control" rows="5" id="description" placeholder="Description"><%= model.description %></textarea>
-        </div>
-        <div class="form-group">
-          <div>
-            <label for="price" class="control-label">Price</label>
-            <span class="control-label validationMessage"></span>
-          </div>
-          <input type="text" class="form-control" id="price" value="<%= model.price %>">
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" id="isOnSale"> Is On Sale
-          </label>
-        </div>
-        <div class="form-group">
-          <div>
-            <label for="salePrice" class="control-label">Sale Price</label>
-            <span class="control-label validationMessage"></span>
-          </div>
-          <input type="text" class="form-control" id="salePrice" value="<%= model.salePrice %>">
-        </div>
-        <button id="save" type="button" class="btn btn-default">Save</button>
-      </div>
-      <div class="col-sm-6 photoArea" style="display: none;">
-        <h4>Tile Image</h4>
-        <small>Note: This image should be 360x320 in size</small>
-        <div class="form-group">
-          <p>
-            <label for="thumbnailUpload"></label>
-            <input type="file" accept="image/*" id="thumbnailUpload">
-          </p>
-          <div class="text-center">
-            <p>
-              <img id="thumbnail"/>
-            </p>
-            <p>
-              <button id="deleteWarning" type="button" class="btn btn-danger" data-toggle="modal" data-target="#warningModal">
-                Delete
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-  <br/>
-  <div class="row photoArea" style="display: none;">
-    <h3>Photos</h3>
-    <small>Note: Photos are limited to 10MB each</small>
-    <div class="form-group">
-      <label for="fileUpload"></label>
-      <input type="file" accept="image/*" id="fileUpload">
-      <br/>
     </div>
   </div>
 </div>
