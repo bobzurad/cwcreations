@@ -15,7 +15,8 @@ define(
       events: {
         "click #save": "saveClick",
         "click #deleteImage": "deleteImage",
-        "click #deleteWarning": "loadImageToDelete"
+        "click #deleteWarning": "loadImageToDelete",
+        'show.bs.tab a[data-toggle="tab"]': 'tabClicked'
       },
 
       initialize: function() {
@@ -34,6 +35,7 @@ define(
           this.model = Bracelets.get(id);
           this.$el.html(this.template({ model: this.model.attributes }));
           this.$(".photoArea").show();
+          this.$('a[data-toggle="tab"]').parent().removeClass("disabled");
         } else {
           this.model = new Bracelet();
           this.$el.html(this.template({ model: {} }));
@@ -131,6 +133,14 @@ define(
           this.model.set({
             thumbnail: Common.DefaultThumbnailImage
           });
+        }
+      },
+
+      tabClicked: function(e) {
+        //don't switch to tab if it's disabled
+        if ($(e.currentTarget).parent().hasClass("disabled")) {
+          e.preventDefault();
+          return false;
         }
       }
     });
