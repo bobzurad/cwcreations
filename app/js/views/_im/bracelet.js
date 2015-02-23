@@ -16,6 +16,7 @@ define(
         "click #save": "saveClick",
         "click #deleteImage": "deleteImage",
         "click #deleteWarning": "loadImageToDelete",
+        "click a[href=#images]": "loadImages",
         'show.bs.tab a[data-toggle="tab"]': 'tabClicked'
       },
 
@@ -142,6 +143,22 @@ define(
           e.preventDefault();
           return false;
         }
+      },
+
+      loadImages: function(e) {
+        //TODO: load an ImageView for each image
+        if (this.Images === undefined) {
+          this.ImagesRef = Backbone.Firebase.Model.extend({
+            url: Common.FirebaseUrl + "images/" + this.model.get("id")
+          });
+
+          this.Images = new this.ImagesRef();
+          this.listenTo(this.Images, 'sync', this.imagesLoaded);
+        }
+      },
+
+      imagesLoaded: function(imagesModel) {
+
       }
     });
 
