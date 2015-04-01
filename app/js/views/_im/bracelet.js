@@ -154,16 +154,17 @@ define(
           });
 
           this.Images = new this.ImagesRef();
+          //TODO: 'sync' is not being fired. maybe we don't need this.imagesLoaded. just load ImageViews here?
           this.listenTo(this.Images, 'sync', this.imagesLoaded);
         }
       },
 
       imagesLoaded: function(imagesModel) {
-
+        alert("images loaded");
       },
 
       deleteProduct: function(e) {
-        Bracelets.remove(this.model.attributes);        
+        Bracelets.remove(this.model.attributes);
         window.location.hash = "#/list";
       }
     });
