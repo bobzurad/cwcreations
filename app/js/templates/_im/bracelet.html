@@ -109,3 +109,23 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
+<div id="warningProductModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Warning!</h4>
+      </div>
+      <div class="modal-body text-center">
+        <p>Are you sure you want to delete the following product?</p>
+        <h4><%= model.name %></h4>
+        <img src="<%= model.thumbnail %>"/>
+        <p style="padding-top: 10px">Once it's gone, it's gone! This cannot be undone!</p>
+      </div>
+      <div class="modal-footer bg-danger">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="deleteProduct" type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>

@@ -17,7 +17,8 @@ define(
         "click #deleteImage": "deleteImage",
         "click #deleteWarning": "loadImageToDelete",
         "click a[href=#images]": "loadImages",
-        'show.bs.tab a[data-toggle="tab"]': 'tabClicked'
+        'show.bs.tab a[data-toggle="tab"]': 'tabClicked',
+        "click #deleteProduct": "deleteProduct"
       },
 
       initialize: function() {
@@ -159,6 +160,11 @@ define(
 
       imagesLoaded: function(imagesModel) {
 
+      },
+
+      deleteProduct: function(e) {
+        Bracelets.remove(this.model.attributes);        
+        window.location.hash = "#/list";
       }
     });
 
