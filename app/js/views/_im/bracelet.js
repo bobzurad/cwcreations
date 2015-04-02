@@ -3,8 +3,11 @@ define(
   'models/common',
   'models/bracelet',
   'collections/bracelets',
-  'text!templates/_im/bracelet.html'],
-  function($, _, Backbone, Common, Bracelet, Bracelets, braceletTemplate) {
+  'text!templates/_im/bracelet.html',
+  'views/_im/image',
+  'models/image'],
+  function($, _, Backbone, Common, Bracelet, Bracelets, braceletTemplate,
+    ImageView, ImageModel) {
     'use strict';
 
     var BraceletView = Backbone.View.extend({
@@ -14,10 +17,10 @@ define(
 
       events: {
         "click #save": "saveClick",
-        "click #deleteImage": "deleteImage",
-        "click #deleteWarning": "loadImageToDelete",
         "click a[href=#images]": "loadImages",
         'show.bs.tab a[data-toggle="tab"]': 'tabClicked',
+        "click #deleteWarning": "loadImageToDelete",
+        "click #deleteImage": "deleteImage",        
         "click #deleteProduct": "deleteProduct"
       },
 
@@ -33,39 +36,41 @@ define(
       },
 
       render: function(id) {
+        //load model and render template
         if (id && Bracelets.models.length > 0) {
+          //for edit
           this.model = Bracelets.get(id);
           this.$el.html(this.template({ model: this.model.attributes }));
           this.$(".photoArea").show();
           this.$('a[data-toggle="tab"]').parent().removeClass("disabled");
         } else {
-          this.model = new Bracelet();
+          //for create
+          this.model = new Bracelet({
+            thumbnail: Common.DefaultThumbnailImage
+          });
           this.$el.html(this.template({ model: {} }));
         }
 
-        this.listenTo(this.model, 'invalid', this.showErrors);
-
+        //DOM bindings
         this.$name = this.$("#name");
         this.$description = this.$("#description");
         this.$price = this.$("#price");
         this.$salePrice = this.$("#salePrice");
         this.$isOnSale = this.$("#isOnSale");
         this.$thumbnailUpload = this.$("#thumbnailUpload");
-        this.$thumbnail = this.$("#thumbnail");
-
         if (this.model.get("isOnSale")) {
           this.$isOnSale.prop("checked", "checked");
         }
 
-        if (this.model.get("thumbnail") == Common.DefaultThumbnailImage
-          || this.model.get("thumbnail") === undefined)
-        {
-          this.$thumbnail.prop("src", Common.DefaultThumbnailImage);
-          $("#deleteWarning").hide();
-        } else {
-          this.$thumbnail.prop("src", this.model.get("thumbnail"));
-        }
+        //load ImageView for thumbnail image
+        var imageModel = new ImageModel({
+          imageData: this.model.get("thumbnail")
+        });
+        this.thumbnailImageView = new ImageView({ model: imageModel.attributes });
+        this.thumbnailImageView.render();
 
+        //events
+        this.listenTo(this.model, 'invalid', this.showErrors);
         this.$thumbnailUpload.on("change", $.proxy(this.readImage, this));
 
         return this;
@@ -148,19 +153,20 @@ define(
 
       loadImages: function(e) {
         //TODO: load an ImageView for each image
-        if (this.Images === undefined) {
+        if (this.Images === undefined || this.Images.get("id") != this.model.get("id")) {
           this.ImagesRef = Backbone.Firebase.Model.extend({
-            url: Common.FirebaseUrl + "images/" + this.model.get("id")
+            url: Common.FirebaseUrl + "images/" + this.model.get("id"),
+            autoSync: false
           });
 
           this.Images = new this.ImagesRef();
-          //TODO: 'sync' is not being fired. maybe we don't need this.imagesLoaded. just load ImageViews here?
-          this.listenTo(this.Images, 'sync', this.imagesLoaded);
+          this.Images.on('sync', this.imagesLoaded)
+          this.Images.fetch();
         }
       },
 
       imagesLoaded: function(imagesModel) {
-        alert("images loaded");
+        console.log("images loaded");
       },
 
       deleteProduct: function(e) {
