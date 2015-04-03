@@ -8,7 +8,6 @@ define(
     'use strict';
 
     var ImageView = Backbone.View.extend({
-      'el': '.imageContainer',
 
       template: _.template(imageTemplate),
 

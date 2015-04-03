@@ -20,7 +20,7 @@ define(
         "click a[href=#images]": "loadImages",
         'show.bs.tab a[data-toggle="tab"]': 'tabClicked',
         "click #deleteWarning": "loadImageToDelete",
-        "click #deleteImage": "deleteImage",        
+        "click #deleteImage": "deleteImage",
         "click #deleteProduct": "deleteProduct"
       },
 
@@ -37,6 +37,7 @@ define(
 
       render: function(id) {
         //load model and render template
+        this.Images = undefined;
         if (id && Bracelets.models.length > 0) {
           //for edit
           this.model = Bracelets.get(id);
@@ -66,7 +67,10 @@ define(
         var imageModel = new ImageModel({
           imageData: this.model.get("thumbnail")
         });
-        this.thumbnailImageView = new ImageView({ model: imageModel.attributes });
+        this.thumbnailImageView = new ImageView({
+          model: imageModel.attributes,
+          el: "#thumbnailImage"
+        });
         this.thumbnailImageView.render();
 
         //events
@@ -152,21 +156,22 @@ define(
       },
 
       loadImages: function(e) {
-        //TODO: load an ImageView for each image
-        if (this.Images === undefined || this.Images.get("id") != this.model.get("id")) {
+        if (this.Images === undefined) {
           this.ImagesRef = Backbone.Firebase.Model.extend({
             url: Common.FirebaseUrl + "images/" + this.model.get("id"),
             autoSync: false
           });
 
           this.Images = new this.ImagesRef();
-          this.Images.on('sync', this.imagesLoaded)
+          this.Images.on('sync', $.proxy(this.imagesLoaded, this));
           this.Images.fetch();
         }
       },
 
       imagesLoaded: function(imagesModel) {
-        console.log("images loaded");
+        if (imagesModel.get("image1") !== undefined) {
+          //TODO: load ImageViews here
+        }
       },
 
       deleteProduct: function(e) {
