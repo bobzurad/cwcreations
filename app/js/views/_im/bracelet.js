@@ -65,7 +65,8 @@ define(
 
         //load ImageView for thumbnail image
         var imageModel = new ImageModel({
-          imageData: this.model.get("thumbnail")
+          imageData: this.model.get("thumbnail"),
+          isThumbnail: true
         });
         this.thumbnailImageView = new ImageView({
           model: imageModel.attributes,
@@ -128,22 +129,29 @@ define(
       },
 
       loadImageToDelete: function(e) {
-        this.$("#imageToDelete").prop("src", $(e.currentTarget).parent().parent().find("img").prop("src"));
+        var $img = $(e.currentTarget).parent().parent().find("img");
+
+        this.$("#imageToDelete").prop("src", $img.prop("src"));
+
         //deleting a thumbnail or other image?
-        if ($(e.currentTarget).parent().parent().find("#thumbnail").length) {
-          this.$("#deleteImage").data("imageId", "thumbnail");
+        if ($img.data("isthumbnail") === true) {
+          this.$("#deleteImage").data("imageid", "thumbnail");
         } else {
-          this.$("#deleteImage").data("imageId", "INSERT_IMAGE_ID_HERE");
+          this.$("#deleteImage").data("imageid", $img.data("imageindex"));
         }
       },
 
       deleteImage: function(e) {
-        var imageId = $(e.currentTarget).data("imageId");
+        var imageId = $(e.currentTarget).data("imageid");
 
         if (imageId === "thumbnail") {
           this.model.set({
             thumbnail: Common.DefaultThumbnailImage
           });
+        } else if (parseInt(imageId) >= 0 && parseInt(imageId) <= 9) {
+          //TODO: fix the mismatch between dynamic imageId and static image0, image1, etc...
+          this.Images.unset("image" + imageId);
+          this.Images.save();
         }
       },
 
@@ -169,9 +177,21 @@ define(
       },
 
       imagesLoaded: function(imagesModel) {
-        if (imagesModel.get("image1") !== undefined) {
-          //TODO: load ImageViews here
-        }
+        var self = this;
+        //create an ImageModel and ImageView for each image and push it onto a collection
+        self.ImageViews = [];
+        _.each(imagesModel.keys(), function(key, i) {
+          var imageModel = new ImageModel({
+            imageData: imagesModel.get(key),
+            imageIndex: i
+          });
+          var imageView = new ImageView({
+            model: imageModel.attributes,
+            el: "#image" + i
+          });
+          imageView.render();
+          self.ImageViews.push(imageView);
+        });
       },
 
       deleteProduct: function(e) {

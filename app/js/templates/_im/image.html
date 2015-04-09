@@ -1,9 +1,13 @@
 <div class="text-center">
   <p>
-    <img id="thumbnail" src="<%= model.imageData %>" />
+    <img id="imageViewImage"
+      data-isthumbnail="<%= model.isThumbnail %>"
+      data-imageindex="<%= model.imageIndex %>"
+      src="<%= model.imageData %>" />
   </p>
   <p>
-    <button id="deleteWarning" type="button" class="btn btn-danger" data-toggle="modal" data-target="#warningModal">
+    <button id="deleteWarning" type="button" class="btn btn-danger"
+      data-toggle="modal" data-target="#warningModal">
       Delete
     </button>
   </p>
