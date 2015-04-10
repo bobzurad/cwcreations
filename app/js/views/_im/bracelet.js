@@ -138,20 +138,23 @@ define(
           this.$("#deleteImage").data("imageid", "thumbnail");
         } else {
           this.$("#deleteImage").data("imageid", $img.data("imageindex"));
+          this.$("#deleteImage").data("imagekey", $img.data("imagekey"));
         }
       },
 
       deleteImage: function(e) {
         var imageId = $(e.currentTarget).data("imageid");
+        var imageKey = $(e.currentTarget).data("imagekey");
 
         if (imageId === "thumbnail") {
           this.model.set({
             thumbnail: Common.DefaultThumbnailImage
           });
         } else if (parseInt(imageId) >= 0 && parseInt(imageId) <= 9) {
-          //TODO: fix the mismatch between dynamic imageId and static image0, image1, etc...
-          this.Images.unset("image" + imageId);
+          this.Images.unset(imageKey);
           this.Images.save();
+          this.$("#" + imageKey).empty();
+          this.$("#warningModal").hide();
         }
       },
 
@@ -181,16 +184,19 @@ define(
         //create an ImageModel and ImageView for each image and push it onto a collection
         self.ImageViews = [];
         _.each(imagesModel.keys(), function(key, i) {
-          var imageModel = new ImageModel({
-            imageData: imagesModel.get(key),
-            imageIndex: i
-          });
-          var imageView = new ImageView({
-            model: imageModel.attributes,
-            el: "#image" + i
-          });
-          imageView.render();
-          self.ImageViews.push(imageView);
+          if (imagesModel.get(key) !== null) {
+            var imageModel = new ImageModel({
+              imageData: imagesModel.get(key),
+              imageIndex: i,
+              imageKey: key
+            });
+            var imageView = new ImageView({
+              model: imageModel.attributes,
+              el: "#" + key
+            });
+            imageView.render();
+            self.ImageViews.push(imageView);
+          }
         });
       },
 
