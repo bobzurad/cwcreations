@@ -59,6 +59,7 @@ define(
         this.$salePrice = this.$("#salePrice");
         this.$isOnSale = this.$("#isOnSale");
         this.$thumbnailUpload = this.$("#thumbnailUpload");
+        this.$imageUpload = this.$("#imageUpload");
         if (this.model.get("isOnSale")) {
           this.$isOnSale.prop("checked", "checked");
         }
@@ -77,6 +78,7 @@ define(
         //events
         this.listenTo(this.model, 'invalid', this.showErrors);
         this.$thumbnailUpload.on("change", $.proxy(this.readImage, this));
+        this.$imageUpload.on("change", $.proxy(this.readImage, this));
 
         return this;
       },
@@ -116,11 +118,18 @@ define(
         var self = this;
         var file = e.target.files[0];
         var reader = new FileReader();
+        var isThumbnail = e.currentTarget.getAttribute("id") == "thumbnailUpload";
 
         reader.onload = function(e) {
-          self.model.set({
-            thumbnail: reader.result
-          });
+          if (isThumbnail) {
+            self.model.set({
+              thumbnail: reader.result
+            });
+          } else {
+            var blah = "blah";
+            //TODO: add image to self.Images and/or self.ImageViews
+
+          }
         }
 
         if (file) {
@@ -174,12 +183,12 @@ define(
           });
 
           this.Images = new this.ImagesRef();
-          this.Images.on('sync', $.proxy(this.imagesLoaded, this));
+          this.Images.on('sync', $.proxy(this.imagesSynced, this));
           this.Images.fetch();
         }
       },
 
-      imagesLoaded: function(imagesModel) {
+      imagesSynced: function(imagesModel) {
         var self = this;
         //create an ImageModel and ImageView for each image and push it onto a collection
         self.ImageViews = [];
