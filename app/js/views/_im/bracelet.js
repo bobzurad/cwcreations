@@ -126,9 +126,8 @@ define(
               thumbnail: reader.result
             });
           } else {
-            var blah = "blah";
-            //TODO: add image to self.Images and/or self.ImageViews
-
+            self.Images.set(Common.getGuid(), reader.result);
+            self.Images.save();
           }
         }
 
@@ -144,25 +143,25 @@ define(
 
         //deleting a thumbnail or other image?
         if ($img.data("isthumbnail") === true) {
-          this.$("#deleteImage").data("imageid", "thumbnail");
+          this.$("#deleteImage").data("imageIndex", "thumbnail");
         } else {
-          this.$("#deleteImage").data("imageid", $img.data("imageindex"));
+          this.$("#deleteImage").data("imageIndex", $img.data("imageindex"));
           this.$("#deleteImage").data("imagekey", $img.data("imagekey"));
         }
       },
 
       deleteImage: function(e) {
-        var imageId = $(e.currentTarget).data("imageid");
+        var imageIndex = $(e.currentTarget).data("imageIndex");
         var imageKey = $(e.currentTarget).data("imagekey");
 
-        if (imageId === "thumbnail") {
+        if (imageIndex === "thumbnail") {
           this.model.set({
             thumbnail: Common.DefaultThumbnailImage
           });
-        } else if (parseInt(imageId) >= 0 && parseInt(imageId) <= 9) {
+        } else if (parseInt(imageIndex) >= 0 && parseInt(imageIndex) <= 9) {
           this.Images.unset(imageKey);
           this.Images.save();
-          this.$("#" + imageKey).empty();
+          this.$("#image" + imageIndex).empty();
           this.$("#warningModal").hide();
         }
       },
@@ -176,6 +175,7 @@ define(
       },
 
       loadImages: function(e) {
+        //TODO: rename this.Images to this.ImageModel as it's a model, not a collection
         if (this.Images === undefined) {
           this.ImagesRef = Backbone.Firebase.Model.extend({
             url: Common.FirebaseUrl + "images/" + this.model.get("id"),
@@ -189,10 +189,15 @@ define(
       },
 
       imagesSynced: function(imagesModel) {
+        //TODO: how would this behave if 10 people were adding to the Model?
         var self = this;
         //create an ImageModel and ImageView for each image and push it onto a collection
         self.ImageViews = [];
         _.each(imagesModel.keys(), function(key, i) {
+          //create DOM element to attach to
+          $('<div id="image' + i + '"></div>').appendTo("#images");
+
+          //create ImageModel and ImageView
           if (imagesModel.get(key) !== null) {
             var imageModel = new ImageModel({
               imageData: imagesModel.get(key),
@@ -201,7 +206,7 @@ define(
             });
             var imageView = new ImageView({
               model: imageModel.attributes,
-              el: "#" + key
+              el: "#image" + i
             });
             imageView.render();
             self.ImageViews.push(imageView);
