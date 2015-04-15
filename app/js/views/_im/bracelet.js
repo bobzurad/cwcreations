@@ -36,6 +36,7 @@ define(
       },
 
       render: function(id) {
+        console.log("braceletView render")
         //load model and render template
         this.Images = undefined;
         if (id && Bracelets.models.length > 0) {
@@ -161,7 +162,8 @@ define(
         } else if (parseInt(imageIndex) >= 0 && parseInt(imageIndex) <= 9) {
           this.Images.unset(imageKey);
           this.Images.save();
-          this.$("#image" + imageIndex).empty();
+          this.ImageViews[imageIndex].remove();
+          this.ImageViews.remove(imageIndex);
           this.$("#warningModal").hide();
         }
       },
@@ -175,6 +177,7 @@ define(
       },
 
       loadImages: function(e) {
+        console.log("loadImages");
         //TODO: rename this.Images to this.ImageModel as it's a model, not a collection
         if (this.Images === undefined) {
           this.ImagesRef = Backbone.Firebase.Model.extend({
@@ -189,27 +192,34 @@ define(
       },
 
       imagesSynced: function(imagesModel) {
+        console.log("imagesSynced");
         //TODO: how would this behave if 10 people were adding to the Model?
         var self = this;
-        //create an ImageModel and ImageView for each image and push it onto a collection
-        self.ImageViews = [];
-        _.each(imagesModel.keys(), function(key, i) {
-          //create DOM element to attach to
-          $('<div id="image' + i + '"></div>').appendTo("#images");
 
-          //create ImageModel and ImageView
-          if (imagesModel.get(key) !== null) {
-            var imageModel = new ImageModel({
-              imageData: imagesModel.get(key),
-              imageIndex: i,
-              imageKey: key
-            });
-            var imageView = new ImageView({
-              model: imageModel.attributes,
-              el: "#image" + i
-            });
-            imageView.render();
-            self.ImageViews.push(imageView);
+        if (self.ImageViews === undefined) {
+          self.ImageViews = [];
+        }
+
+        //create an ImageModel and ImageView for each image and push it onto a collection
+        _.each(imagesModel.keys(), function(key, i) {
+          if ($("img[data-imagekey=" + key + "]").length === 0) {
+            //create DOM element to attach to
+            $('<div id="image' + i + '"></div>').appendTo("#images");
+
+            //create ImageModel and ImageView
+            if (imagesModel.get(key) !== null) {
+              var imageModel = new ImageModel({
+                imageData: imagesModel.get(key),
+                imageIndex: i,
+                imageKey: key
+              });
+              var imageView = new ImageView({
+                model: imageModel.attributes,
+                el: "#image" + i
+              });
+              imageView.render();
+              self.ImageViews.push(imageView);
+            }
           }
         });
       },

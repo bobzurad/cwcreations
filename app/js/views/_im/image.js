@@ -12,6 +12,7 @@ define(
       template: _.template(imageTemplate),
 
       render: function() {
+        console.log("render imageView")
         //render template
         this.$el.html(this.template({ model: this.model }));
 
