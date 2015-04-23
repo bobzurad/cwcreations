@@ -156,16 +156,19 @@ define(
         var imageKey = $(e.currentTarget).data("imagekey");
 
         if (imageIndex === "thumbnail") {
+          //TODO: figure out why setting a property on the model closes the modal dialog, making the page unresponsive
           this.model.set({
             thumbnail: Common.DefaultThumbnailImage
           });
         } else if (parseInt(imageIndex) >= 0 && parseInt(imageIndex) <= 9) {
           this.Images.unset(imageKey);
           this.Images.save();
-          this.ImageViews[imageIndex].remove();
-          this.ImageViews.remove(imageIndex);
-          this.$("#warningModal").hide();
+          this.ImageViews[imageIndex].remove(); //remove the view from the DOM
+          this.ImageViews.remove(imageIndex);   //remove the view from the collection
         }
+
+        this.$("#warningModal").modal('hide');
+        //e.preventDefault();
       },
 
       tabClicked: function(e) {
@@ -198,28 +201,28 @@ define(
 
         if (self.ImageViews === undefined) {
           self.ImageViews = [];
+          console.log("self.ImageViews cleared")
         }
 
         //create an ImageModel and ImageView for each image and push it onto a collection
         _.each(imagesModel.keys(), function(key, i) {
-          if ($("img[data-imagekey=" + key + "]").length === 0) {
+          if (self.$("#" + key).length === 0 && imagesModel.get(key) !== null) {
+            console.log("adding image " + key);
             //create DOM element to attach to
-            $('<div id="image' + i + '"></div>').appendTo("#images");
+            $('<div id="' + key + '"></div>').appendTo("#imageList");
 
             //create ImageModel and ImageView
-            if (imagesModel.get(key) !== null) {
-              var imageModel = new ImageModel({
-                imageData: imagesModel.get(key),
-                imageIndex: i,
-                imageKey: key
-              });
-              var imageView = new ImageView({
-                model: imageModel.attributes,
-                el: "#image" + i
-              });
-              imageView.render();
-              self.ImageViews.push(imageView);
-            }
+            var imageModel = new ImageModel({
+              imageData: imagesModel.get(key),
+              imageIndex: i,
+              imageKey: key
+            });
+            var imageView = new ImageView({
+              model: imageModel.attributes,
+              el: "#" + key
+            });
+            imageView.render();
+            self.ImageViews.push(imageView);
           }
         });
       },
