@@ -39,6 +39,7 @@ define(
         console.log("braceletView render")
         //load model and render template
         this.Images = undefined;
+
         if (id && Bracelets.models.length > 0) {
           //for edit
           this.model = Bracelets.get(id);
@@ -47,9 +48,7 @@ define(
           this.$('a[data-toggle="tab"]').parent().removeClass("disabled");
         } else {
           //for create
-          this.model = new Bracelet({
-            thumbnail: Common.DefaultThumbnailImage
-          });
+          this.model = new Bracelet();
           this.$el.html(this.template({ model: {} }));
         }
 
@@ -65,21 +64,21 @@ define(
           this.$isOnSale.prop("checked", "checked");
         }
 
-        //load ImageView for thumbnail image
-        var imageModel = new ImageModel({
-          imageData: this.model.get("thumbnail"),
-          isThumbnail: true
-        });
-        this.thumbnailImageView = new ImageView({
-          model: imageModel.attributes,
-          el: "#thumbnailImage"
-        });
-        this.thumbnailImageView.render();
-
         //events
         this.listenTo(this.model, 'invalid', this.showErrors);
         this.$thumbnailUpload.on("change", $.proxy(this.readImage, this));
         this.$imageUpload.on("change", $.proxy(this.readImage, this));
+
+        //reference for thumbnail image
+        if (this.ThumbnailModelRef === undefined
+          && this.model.get("id") != undefined) {
+          this.ThumbnailModelRef = Backbone.Firebase.Model.extend({
+            url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id")
+          });
+
+          this.ThumbnailModel = new this.ThumbnailModelRef();
+          this.ThumbnailModel.on('sync', this.thumbnailSynced);
+        }
 
         return this;
       },
@@ -156,7 +155,7 @@ define(
         var imageKey = $(e.currentTarget).data("imagekey");
 
         if (imageIndex === "thumbnail") {
-          //TODO: figure out why setting a property on the model closes the modal dialog, making the page unresponsive
+          //TODO: move all instances of model.thumbnail to thumbnails model reference
           this.model.set({
             thumbnail: Common.DefaultThumbnailImage
           });
@@ -225,6 +224,16 @@ define(
             self.ImageViews.push(imageView);
           }
         });
+      },
+
+      thumbnailSynced: function(thumbnailModel) {
+        //load ImageView for thumbnail image
+        this.thumbnailImageView = new ImageView({
+          model: thumbnailModel.attributes,
+          el: "#thumbnailImage"
+        });
+
+        this.thumbnailImageView.render();
       },
 
       deleteProduct: function(e) {
