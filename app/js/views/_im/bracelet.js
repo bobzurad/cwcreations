@@ -50,6 +50,7 @@ define(
           //for create
           this.model = new Bracelet();
           this.$el.html(this.template({ model: {} }));
+          this.ThumbnailModel = undefined;
         }
 
         //DOM bindings
@@ -70,14 +71,17 @@ define(
         this.$imageUpload.on("change", $.proxy(this.readImage, this));
 
         //reference for thumbnail image
-        if (this.ThumbnailModelRef === undefined
-          && this.model.get("id") != undefined) {
+        //refresh reference when model id has changed
+        if ((this.ThumbnailModel === undefined && this.model.get("id") != undefined)
+          || (this.ThumbnailModel != undefined && this.model.get("id") != this.ThumbnailModel.get("id"))) {
           this.ThumbnailModelRef = Backbone.Firebase.Model.extend({
-            url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id")
+            url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id"),
+            autoSync: false
           });
 
           this.ThumbnailModel = new this.ThumbnailModelRef();
           this.ThumbnailModel.on('sync', this.thumbnailSynced);
+          this.ThumbnailModel.fetch();
         }
 
         return this;
@@ -103,6 +107,17 @@ define(
           //firebase will update the existing model in the colleciton, rather than add a new model
           Bracelets.create(this.model.attributes);
 
+          //create thumbnail reference
+          this.ThumbnailModelRef = Backbone.Firebase.Model.extend({
+            url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id"),
+            autoSync: false
+          });
+          this.ThumbnailModel = new this.ThumbnailModelRef();
+          this.ThumbnailModel.save({
+            imageData: Common.DefaultThumbnailImage,
+            isThumbnail: true
+          })
+
           window.location.hash = "#/list";
         }
       },
@@ -122,8 +137,9 @@ define(
 
         reader.onload = function(e) {
           if (isThumbnail) {
-            self.model.set({
-              thumbnail: reader.result
+            self.ThumbnailModel.save({
+              isThumbnail: true,
+              imageData: reader.result
             });
           } else {
             self.Images.set(Common.getGuid(), reader.result);
@@ -155,9 +171,8 @@ define(
         var imageKey = $(e.currentTarget).data("imagekey");
 
         if (imageIndex === "thumbnail") {
-          //TODO: move all instances of model.thumbnail to thumbnails model reference
-          this.model.set({
-            thumbnail: Common.DefaultThumbnailImage
+          this.ThumbnailModel.save({
+            imageData: Common.DefaultThumbnailImage
           });
         } else if (parseInt(imageIndex) >= 0 && parseInt(imageIndex) <= 9) {
           this.Images.unset(imageKey);
@@ -167,7 +182,6 @@ define(
         }
 
         this.$("#warningModal").modal('hide');
-        //e.preventDefault();
       },
 
       tabClicked: function(e) {
@@ -179,7 +193,6 @@ define(
       },
 
       loadImages: function(e) {
-        console.log("loadImages");
         //TODO: rename this.Images to this.ImageModel as it's a model, not a collection
         if (this.Images === undefined) {
           this.ImagesRef = Backbone.Firebase.Model.extend({
@@ -194,7 +207,6 @@ define(
       },
 
       imagesSynced: function(imagesModel) {
-        console.log("imagesSynced");
         //TODO: how would this behave if 10 people were adding to the Model?
         var self = this;
 
@@ -206,7 +218,7 @@ define(
         //create an ImageModel and ImageView for each image and push it onto a collection
         _.each(imagesModel.keys(), function(key, i) {
           if (self.$("#" + key).length === 0 && imagesModel.get(key) !== null) {
-            console.log("adding image " + key);
+            console.log("rendering image " + key);
             //create DOM element to attach to
             $('<div id="' + key + '"></div>').appendTo("#imageList");
 
