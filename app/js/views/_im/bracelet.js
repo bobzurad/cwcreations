@@ -181,6 +181,11 @@ define(
           this.ImageModels.save();
           this.ImageViews[imageIndex].remove(); //remove the view from the DOM
           this.ImageViews.remove(imageIndex);   //remove the view from the collection
+          //reset indexes on remaining images
+          _.each(this.ImageViews, function(imageView, i) {
+            //TODO: figure out why setting the model here doesn't update data-imageIndex in the respective view
+            imageView.model.imageIndex = i;
+          });
         }
 
         this.$("#warningModal").modal('hide');
