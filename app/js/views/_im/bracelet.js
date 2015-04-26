@@ -36,12 +36,14 @@ define(
       },
 
       render: function(id) {
-        console.log("braceletView render")
         //load model and render template
-        this.Images = undefined;
 
         if (id && Bracelets.models.length > 0) {
           //for edit
+          this.ImageModels = [];
+          this.ImageViews = [];
+          this.ImageModelRef = undefined;
+
           this.model = Bracelets.get(id);
           this.$el.html(this.template({ model: this.model.attributes }));
           this.$(".photoArea").show();
@@ -142,8 +144,8 @@ define(
               imageData: reader.result
             });
           } else {
-            self.Images.set(Common.getGuid(), reader.result);
-            self.Images.save();
+            self.ImageModels.set(Common.getGuid(), reader.result);
+            self.ImageModels.save();
           }
         }
 
@@ -175,8 +177,8 @@ define(
             imageData: Common.DefaultThumbnailImage
           });
         } else if (parseInt(imageIndex) >= 0 && parseInt(imageIndex) <= 9) {
-          this.Images.unset(imageKey);
-          this.Images.save();
+          this.ImageModels.unset(imageKey);
+          this.ImageModels.save();
           this.ImageViews[imageIndex].remove(); //remove the view from the DOM
           this.ImageViews.remove(imageIndex);   //remove the view from the collection
         }
@@ -193,16 +195,15 @@ define(
       },
 
       loadImages: function(e) {
-        //TODO: rename this.Images to this.ImageModel as it's a model, not a collection
-        if (this.Images === undefined) {
-          this.ImagesRef = Backbone.Firebase.Model.extend({
+        if (this.ImageModelRef === undefined) {
+          this.ImageModelRef = Backbone.Firebase.Model.extend({
             url: Common.FirebaseUrl + "images/" + this.model.get("id"),
             autoSync: false
           });
 
-          this.Images = new this.ImagesRef();
-          this.Images.on('sync', $.proxy(this.imagesSynced, this));
-          this.Images.fetch();
+          this.ImageModels = new this.ImageModelRef();
+          this.ImageModels.on('sync', $.proxy(this.imagesSynced, this));
+          this.ImageModels.fetch();
         }
       },
 
@@ -210,15 +211,9 @@ define(
         //TODO: how would this behave if 10 people were adding to the Model?
         var self = this;
 
-        if (self.ImageViews === undefined) {
-          self.ImageViews = [];
-          console.log("self.ImageViews cleared")
-        }
-
         //create an ImageModel and ImageView for each image and push it onto a collection
         _.each(imagesModel.keys(), function(key, i) {
           if (self.$("#" + key).length === 0 && imagesModel.get(key) !== null) {
-            console.log("rendering image " + key);
             //create DOM element to attach to
             $('<div id="' + key + '"></div>').appendTo("#imageList");
 
