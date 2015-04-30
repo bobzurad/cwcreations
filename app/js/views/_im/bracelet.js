@@ -40,9 +40,9 @@ define(
 
         if (id && Bracelets.models.length > 0) {
           //for edit
-          this.ImageModels = [];
+          this.ImageFbModelRef = undefined;
+          this.ImageFbModels = [];
           this.ImageViews = [];
-          this.ImageModelRef = undefined;
 
           this.model = Bracelets.get(id);
           this.$el.html(this.template({ model: this.model.attributes }));
@@ -50,9 +50,9 @@ define(
           this.$('a[data-toggle="tab"]').parent().removeClass("disabled");
         } else {
           //for create
+          this.ThumbnailFbModel = undefined;
           this.model = new Bracelet();
           this.$el.html(this.template({ model: {} }));
-          this.ThumbnailModel = undefined;
         }
 
         //DOM bindings
@@ -74,16 +74,16 @@ define(
 
         //reference for thumbnail image
         //refresh reference when model id has changed
-        if ((this.ThumbnailModel === undefined && this.model.get("id") != undefined)
-          || (this.ThumbnailModel != undefined && this.model.get("id") != this.ThumbnailModel.get("id"))) {
-          this.ThumbnailModelRef = Backbone.Firebase.Model.extend({
+        if ((this.ThumbnailFbModel === undefined && this.model.get("id") != undefined)
+          || (this.ThumbnailFbModel != undefined && this.model.get("id") != this.ThumbnailFbModel.get("id"))) {
+          this.ThumbnailFbModelRef = Backbone.Firebase.Model.extend({
             url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id"),
             autoSync: false
           });
 
-          this.ThumbnailModel = new this.ThumbnailModelRef();
-          this.ThumbnailModel.on('sync', this.thumbnailSynced);
-          this.ThumbnailModel.fetch();
+          this.ThumbnailFbModel = new this.ThumbnailFbModelRef();
+          this.ThumbnailFbModel.on('sync', this.thumbnailSynced);
+          this.ThumbnailFbModel.fetch();
         }
 
         return this;
@@ -110,12 +110,12 @@ define(
           Bracelets.create(this.model.attributes);
 
           //create thumbnail reference
-          this.ThumbnailModelRef = Backbone.Firebase.Model.extend({
+          this.ThumbnailFbModelRef = Backbone.Firebase.Model.extend({
             url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id"),
             autoSync: false
           });
-          this.ThumbnailModel = new this.ThumbnailModelRef();
-          this.ThumbnailModel.save({
+          this.ThumbnailFbModel = new this.ThumbnailFbModelRef();
+          this.ThumbnailFbModel.save({
             imageData: Common.DefaultThumbnailImage,
             isThumbnail: true
           })
@@ -139,13 +139,13 @@ define(
 
         reader.onload = function(e) {
           if (isThumbnail) {
-            self.ThumbnailModel.save({
+            self.ThumbnailFbModel.save({
               isThumbnail: true,
               imageData: reader.result
             });
           } else {
-            self.ImageModels.set(Common.getGuid(), reader.result);
-            self.ImageModels.save();
+            self.ImageFbModels.set(Common.getGuid(), reader.result);
+            self.ImageFbModels.save();
           }
         }
 
@@ -173,17 +173,17 @@ define(
         var imageKey = $(e.currentTarget).data("imagekey");
 
         if (imageIndex === "thumbnail") {
-          this.ThumbnailModel.save({
+          this.ThumbnailFbModel.save({
             imageData: Common.DefaultThumbnailImage
           });
         } else if (parseInt(imageIndex) >= 0 && parseInt(imageIndex) <= 9) {
-          this.ImageModels.unset(imageKey);
-          this.ImageModels.save();
+          this.ImageFbModels.unset(imageKey);
+          this.ImageFbModels.save();
           this.ImageViews[imageIndex].remove(); //remove the view from the DOM
           this.ImageViews.remove(imageIndex);   //remove the view from the collection
           //reset indexes on remaining images
           _.each(this.ImageViews, function(imageView, i) {
-            //TODO: figure out why setting the model here doesn't update data-imageIndex in the respective view
+            //TODO: figure out why setting the model here doesn't update the value in the respective view
             imageView.model.imageIndex = i;
           });
         }
@@ -200,15 +200,15 @@ define(
       },
 
       loadImages: function(e) {
-        if (this.ImageModelRef === undefined) {
-          this.ImageModelRef = Backbone.Firebase.Model.extend({
+        if (this.ImageFbModelRef === undefined) {
+          this.ImageFbModelRef = Backbone.Firebase.Model.extend({
             url: Common.FirebaseUrl + "images/" + this.model.get("id"),
             autoSync: false
           });
 
-          this.ImageModels = new this.ImageModelRef();
-          this.ImageModels.on('sync', $.proxy(this.imagesSynced, this));
-          this.ImageModels.fetch();
+          this.ImageFbModels = new this.ImageFbModelRef();
+          this.ImageFbModels.on('sync', $.proxy(this.imagesSynced, this));
+          this.ImageFbModels.fetch();
         }
       },
 
