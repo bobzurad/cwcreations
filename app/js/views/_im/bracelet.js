@@ -43,6 +43,7 @@ define(
           this.ImageFbModelRef = undefined;
           this.ImageFbModels = [];
           this.ImageViews = [];
+          this.ImageModels = [];
 
           this.model = Bracelets.get(id);
           this.$el.html(this.template({ model: this.model.attributes }));
@@ -181,10 +182,10 @@ define(
           this.ImageFbModels.save();
           this.ImageViews[imageIndex].remove(); //remove the view from the DOM
           this.ImageViews.remove(imageIndex);   //remove the view from the collection
+          this.ImageModels.remove(imageIndex);  //remove the model from the collection
           //reset indexes on remaining images
-          _.each(this.ImageViews, function(imageView, i) {
-            //TODO: figure out why setting the model here doesn't update the value in the respective view
-            imageView.model.imageIndex = i;
+          _.each(this.ImageModels, function(imageModel, i) {
+            imageModel.set({ imageIndex: i });
           });
         }
 
@@ -217,7 +218,7 @@ define(
         var self = this;
 
         //create an ImageModel and ImageView for each image and push it onto a collection
-        _.each(imagesModel.keys(), function(key, i) {
+        _.each(imagesModel.keys(), function(key) {
           if (self.$("#" + key).length === 0 && imagesModel.get(key) !== null) {
             //create DOM element to attach to
             $('<div id="' + key + '"></div>').appendTo("#imageList");
@@ -225,15 +226,16 @@ define(
             //create ImageModel and ImageView
             var imageModel = new ImageModel({
               imageData: imagesModel.get(key),
-              imageIndex: i,
+              imageIndex: self.ImageModels.length,
               imageKey: key
             });
             var imageView = new ImageView({
-              model: imageModel.attributes,
+              model: imageModel,
               el: "#" + key
             });
             imageView.render();
             self.ImageViews.push(imageView);
+            self.ImageModels.push(imageModel);
           }
         });
       },
@@ -241,7 +243,7 @@ define(
       thumbnailSynced: function(thumbnailModel) {
         //load ImageView for thumbnail image
         this.thumbnailImageView = new ImageView({
-          model: thumbnailModel.attributes,
+          model: thumbnailModel,
           el: "#thumbnailImage"
         });
 

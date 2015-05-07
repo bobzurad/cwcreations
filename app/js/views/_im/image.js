@@ -11,9 +11,16 @@ define(
 
       template: _.template(imageTemplate),
 
+      initialize: function() {
+        this.listenTo(this.model, "change", this.render);
+      },
+
       render: function() {
+
+        console.log("ImageView.render()");
+
         //render template
-        this.$el.html(this.template({ model: this.model }));
+        this.$el.html(this.template({ model: this.model.attributes }));
 
         //DOM bindings
         this.$deleteWarning = this.$("#deleteWarning");
