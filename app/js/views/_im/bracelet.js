@@ -28,10 +28,16 @@ define(
         this.listenTo(Bracelets, 'sync', this.modelLoaded);
       },
 
-      modelLoaded: function() {
+      modelLoaded: function(e) {
         if (window.location.hash.indexOf("bracelet") > 0) {
           //TODO: there's got to be a better way to get the id of the model we're editing
-          this.render(window.location.hash.substr(11));
+          var id = window.location.hash.substr(11);
+          //make sure it wasn't deleted
+          if (Bracelets.get(id) != null) {
+            //TODO: for whatever reason, .get(id) still returns the model after 'sync'
+            //  has been triggered after Bracelets.remove() was called in deleteProduct
+            this.render(id);
+          }
         }
       },
 
@@ -251,8 +257,14 @@ define(
       },
 
       deleteProduct: function(e) {
-        Bracelets.remove(this.model.attributes);
-        window.location.hash = "#/list";
+        var self = this;
+
+        this.$("#warningProductModal").modal('hide');
+
+        setTimeout(function() {
+          Bracelets.remove(self.model.attributes);
+          window.location.hash = "#/list";
+        }, 250);
       }
     });
 
