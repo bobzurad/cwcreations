@@ -26,6 +26,9 @@ define(
 
       initialize: function() {
         this.listenTo(Bracelets, 'sync', this.modelLoaded);
+
+        //Because modelLoaded gets called before the Bracelets collection has been actually synced when .remove() is called
+        this.isDeleting = false;
       },
 
       modelLoaded: function(e) {
@@ -33,12 +36,14 @@ define(
           //TODO: there's got to be a better way to get the id of the model we're editing
           var id = window.location.hash.substr(11);
           //make sure it wasn't deleted
-          if (Bracelets.get(id) != null) {
+          if (Bracelets.get(id) != null && !this.isDeleting) {
             //TODO: for whatever reason, .get(id) still returns the model after 'sync'
-            //  has been triggered after Bracelets.remove() was called in deleteProduct
+            //  has been triggered after Bracelets.remove() was called in deleteProduct.
             this.render(id);
           }
         }
+        //Because modelLoaded gets called before the Bracelets collection has been actually synced
+        this.isDeleting = false;
       },
 
       render: function(id) {
@@ -259,12 +264,15 @@ define(
       deleteProduct: function(e) {
         var self = this;
 
-        this.$("#warningProductModal").modal('hide');
+        self.isDeleting = true;
+        Bracelets.remove(self.model.attributes);
 
-        setTimeout(function() {
-          Bracelets.remove(self.model.attributes);
+        //don't redirect to the #/list page until after the modal is done hiding
+        this.$("#warningProductModal").on("hidden.bs.modal", function(e) {
           window.location.hash = "#/list";
-        }, 250);
+        });
+
+        this.$("#warningProductModal").modal('hide');
       }
     });
 
