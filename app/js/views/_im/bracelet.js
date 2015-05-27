@@ -52,9 +52,9 @@ define(
         if (id && Bracelets.models.length > 0) {
           //for edit
           this.ImageFbModelRef = undefined;
-          this.ImageFbModels = [];
-          this.ImageViews = [];
-          this.ImageModels = [];
+          this.ImageFbModels = [];    //(firebase) collection of (firebase) models at images/{id} for this product
+          this.ImageViews = [];       //collection of backbone views attached to the DOM
+          this.ImageViewModels = [];  //collection of backbone models for backbone views
 
           this.model = Bracelets.get(id);
           this.$el.html(this.template({ model: this.model.attributes }));
@@ -193,9 +193,9 @@ define(
           this.ImageFbModels.save();
           this.ImageViews[imageIndex].remove(); //remove the view from the DOM
           this.ImageViews.remove(imageIndex);   //remove the view from the collection
-          this.ImageModels.remove(imageIndex);  //remove the model from the collection
+          this.ImageViewModels.remove(imageIndex);  //remove the model from the collection
           //reset indexes on remaining images
-          _.each(this.ImageModels, function(imageModel, i) {
+          _.each(this.ImageViewModels, function(imageModel, i) {
             imageModel.set({ imageIndex: i });
           });
         }
@@ -237,7 +237,7 @@ define(
             //create ImageModel and ImageView
             var imageModel = new ImageModel({
               imageData: imagesModel.get(key),
-              imageIndex: self.ImageModels.length,
+              imageIndex: self.ImageViewModels.length,
               imageKey: key
             });
             var imageView = new ImageView({
@@ -246,7 +246,7 @@ define(
             });
             imageView.render();
             self.ImageViews.push(imageView);
-            self.ImageModels.push(imageModel);
+            self.ImageViewModels.push(imageModel);
           }
         });
       },
@@ -263,11 +263,18 @@ define(
 
       deleteProduct: function(e) {
         var self = this;
-
+        
         self.isDeleting = true;
-        Bracelets.remove(self.model.attributes);
 
-        //don't redirect to the #/list page until after the modal is done hiding
+        //remove bracelet, thumbnail, and images from firebase
+        Bracelets.remove(self.model.attributes);
+        var thumbnailRef = new Firebase(Common.FirebaseUrl + "thumbnails/" + self.model.get("id"));
+        var imagesRef = new Firebase(Common.FirebaseUrl + "images/" + self.model.get("id"));
+        thumbnailRef.remove();
+        imagesRef.remove();
+
+        //don't redirect to the #/list page until after the modal is done hiding.
+        //this fixes issue of page becoming unresponsive after redirecting from modal
         this.$("#warningProductModal").on("hidden.bs.modal", function(e) {
           window.location.hash = "#/list";
         });
