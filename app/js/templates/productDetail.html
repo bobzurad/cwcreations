@@ -3,29 +3,18 @@
     <div id="productImageCarousel" class="col-md-8 carousel slide" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">
-        @for (int i = 0; i < Model.Images.Count; i++)
-        {
-          <li data-target="#productImageCarousel" data-slide-to="@i"></li>
-        }
+        <!-- _.each(image) -->
+          <li data-target="#productImageCarousel" data-slide-to="0"></li>
       </ol>
 
       <!-- Wrapper for slides -->
       <div class="carousel-inner">
-        @for (int i = 0; i < Model.Images.Count; i++)
-        {
-          if (i == 0)
-          {
+        <!-- _.each(image) -->
             <div class="item active">
+              <!--
               <img src="~/img/inventory/@Model.Images[i].FileName" alt="" />
+              -->
             </div>
-          }
-          else
-          {
-            <div class="item">
-              <img src="~/img/inventory/@Model.Images[i].FileName" alt="" />
-            </div>
-          }
-        }
       </div>
 
       <!-- Controls -->
@@ -37,9 +26,9 @@
       </a>
     </div>
     <div class="col-md-4">
-      @Model.Description
+      <%= model.name %>
       <br />
-      $@Model.Price
+      <%= model.price %>
     </div>
   </div>
 </div>

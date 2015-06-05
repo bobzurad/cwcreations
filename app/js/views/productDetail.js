@@ -10,6 +10,8 @@ define(
       template: _.template(productDetailTemplate),
 
       initialize: function() {
+        //TODO: we're using the wrong Images here.
+        //  remove this and get images from images/id
         this.listenTo(Images, 'sync', this.imagesLoaded);
       },
 
@@ -18,7 +20,7 @@ define(
       },
 
       render: function() {
-        this.$el.html(this.template());
+        this.$el.html(this.template({ model: this.model.attributes }));
 
         return this;
       },
@@ -28,7 +30,7 @@ define(
       },
 
       imagesLoaded: function() {
-
+        console.log("images loaded")
       }
 
     });

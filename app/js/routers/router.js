@@ -61,14 +61,14 @@ define(
           //use case: user came from external source or refreshed page at /detail/id
           this.listenToOnce(Bracelets, 'sync', function(e) {
             model = Bracelets.get(id);
-            self.ProductDetailView = new ProductDetailView({ model: model.attributes })
+            self.ProductDetailView = new ProductDetailView({ model: model })
             self.ProductDetailView.render();
           });
 
           return;
         }
 
-        this.ProductDetailView = new ProductDetailView({ model: model.attributes });
+        this.ProductDetailView = new ProductDetailView({ model: model });
         this.ProductDetailView.render();
       }
 
