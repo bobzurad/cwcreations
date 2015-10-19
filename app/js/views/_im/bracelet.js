@@ -36,7 +36,7 @@ define(
           //TODO: there's got to be a better way to get the id of the model we're editing
           var id = window.location.hash.substr(11);
           //make sure it wasn't deleted
-          if (Bracelets.get(id) != null && !this.isDeleting) {
+          if (Bracelets.get(id) !== null && !this.isDeleting) {
             //TODO: for whatever reason, .get(id) still returns the model after 'sync'
             //  has been triggered after Bracelets.remove() was called in deleteProduct.
             this.render(id);
@@ -86,8 +86,9 @@ define(
 
         //reference for thumbnail image
         //refresh reference when model id has changed
-        if ((this.ThumbnailFbModel === undefined && this.model.get("id") != undefined)
-          || (this.ThumbnailFbModel != undefined && this.model.get("id") != this.ThumbnailFbModel.get("id"))) {
+        if ((this.ThumbnailFbModel === undefined && this.model.get("id") !== undefined) ||
+          (this.ThumbnailFbModel !== undefined && this.model.get("id") != this.ThumbnailFbModel.get("id")))
+        {
           this.ThumbnailFbModelRef = Backbone.Firebase.Model.extend({
             url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id"),
             autoSync: false
@@ -130,7 +131,7 @@ define(
           this.ThumbnailFbModel.save({
             imageData: Common.DefaultThumbnailImage,
             isThumbnail: true
-          })
+          });
 
           window.location.hash = "#/list";
         }
@@ -159,7 +160,7 @@ define(
             self.ImageFbModels.set(Common.getGuid(), reader.result);
             self.ImageFbModels.save();
           }
-        }
+        };
 
         if (file) {
           reader.readAsDataURL(file);
@@ -263,7 +264,7 @@ define(
 
       deleteProduct: function(e) {
         var self = this;
-        
+
         self.isDeleting = true;
 
         //remove bracelet, thumbnail, and images from firebase
