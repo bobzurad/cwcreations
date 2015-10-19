@@ -76,8 +76,10 @@
     </div>
     <div id="dangerzone" role="tabpanel" class="tab-pane">
       <button id="deleteProductWarning" type="button" class="btn btn-danger" data-toggle="modal" data-target="#warningProductModal">
-        Delete
+        Delete <%= model.name %>
       </button>
+      <br/><br/>
+      Note: This will remove all traces of this product from the website!
     </div>
   </div>
 </div>
@@ -111,7 +113,7 @@
       <div class="modal-body text-center">
         <p>Are you sure you want to delete the following product?</p>
         <h4><%= model.name %></h4>
-        <img src="<%= model.thumbnail %>"/>
+        <img id="productWarningThumbnail"/>
         <p style="padding-top: 10px">Once it's gone, it's gone! This cannot be undone!</p>
       </div>
       <div class="modal-footer bg-danger">

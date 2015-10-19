@@ -20,6 +20,7 @@ define(
         "click a[href=#images]": "loadImages",
         'show.bs.tab a[data-toggle="tab"]': 'tabClicked',
         "click #deleteWarning": "loadImageToDelete",
+        "click #deleteProductWarning": "deleteProductWarning",
         "click #deleteImage": "deleteImage",
         "click #deleteProduct": "deleteProduct"
       },
@@ -260,6 +261,10 @@ define(
         });
 
         this.thumbnailImageView.render();
+      },
+
+      deleteProductWarning: function(e) {
+        this.$("#productWarningThumbnail").prop("src", this.$("#imageViewImage").prop("src"));
       },
 
       deleteProduct: function(e) {
