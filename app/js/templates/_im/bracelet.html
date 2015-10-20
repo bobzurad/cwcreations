@@ -35,7 +35,7 @@
               <label for="price" class="control-label">Price</label>
               <span class="control-label validationMessage"></span>
             </div>
-            <input type="text" class="form-control" id="price" value="<%= model.price %>">
+            <input type="text" class="form-control" id="price" value="<%= currency(model.price).format() %>">
           </div>
           <div class="checkbox">
             <label>
@@ -47,7 +47,7 @@
               <label for="salePrice" class="control-label">Sale Price</label>
               <span class="control-label validationMessage"></span>
             </div>
-            <input type="text" class="form-control" id="salePrice" value="<%= model.salePrice %>">
+            <input type="text" class="form-control" id="salePrice" value="<%= currency(model.salePrice).format() %>">
           </div>
           <button id="save" type="button" class="btn btn-default">Save</button>
         </div>

@@ -1,12 +1,12 @@
 define(
-  ['jquery', 'underscore', 'backbone',
+  ['jquery', 'underscore', 'backbone', 'currency',
   'models/common',
   'models/bracelet',
   'collections/bracelets',
   'text!templates/_im/bracelet.html',
   'views/_im/image',
   'models/image'],
-  function($, _, Backbone, Common, Bracelet, Bracelets, braceletTemplate,
+  function($, _, Backbone, currency, Common, Bracelet, Bracelets, braceletTemplate,
     ImageView, ImageModel) {
     'use strict';
 
@@ -105,11 +105,12 @@ define(
 
       saveClick: function(e) {
         //set values on the model
+        //TODO: the tile image is getting wiped out after saving changes
         this.model.set({
           name: this.$name.val(),
           description: this.$description.val(),
-          price: parseFloat(Number(this.$price.val().replace(/[^0-9\.]+/g,""))),
-          salePrice: parseFloat(Number(this.$salePrice.val().replace(/[^0-9\.]+/g,""))),
+          price: currency(this.$price.val()).value,
+          salePrice: currency(this.$salePrice.val()).value,
           isOnSale: this.$isOnSale.is(":checked")
         });
 
