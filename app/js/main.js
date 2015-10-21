@@ -30,7 +30,8 @@
         exports: 'Backbone'
       },
       bootstrap : { deps: ['jquery'] },
-      backbonefire: { deps: ['backbone'] }
+      backbonefire: { deps: ['backbone'] },
+      currency: { exports: 'currency' }
     },
     paths: {
       jquery: '../libs/jquery',
@@ -39,7 +40,8 @@
       text: '../libs/requirejs/text',
       firebase: '../libs/firebase-debug',
       backbonefire: '../libs/backbonefire',
-      bootstrap: '../libs/bootstrap/js/bootstrap'
+      bootstrap: '../libs/bootstrap/js/bootstrap',
+      currency: '../libs/currency'
     }
   });
 

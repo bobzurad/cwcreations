@@ -61,7 +61,7 @@ define(
           //use case: user came from external source or refreshed page at /detail/id
           this.listenToOnce(Bracelets, 'sync', function(e) {
             model = Bracelets.get(id);
-            self.ProductDetailView = new ProductDetailView({ model: model })
+            self.ProductDetailView = new ProductDetailView({ model: model });
             self.ProductDetailView.render();
           });
 
@@ -76,4 +76,4 @@ define(
 
     return Workspace;
   }
-)
+);

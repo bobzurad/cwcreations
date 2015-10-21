@@ -112,7 +112,7 @@
   position: absolute;
   bottom: 0;
   padding:10px 15px 10px 15px;
-  background: rgba(255,255,255,.85);
+  background: rgba(255,255,255, 1);
   width:100%;
 }
 .productTile-add-content{

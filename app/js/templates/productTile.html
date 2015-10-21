@@ -1,5 +1,5 @@
 <div class="container-item">
-    <div class="productTile" style="background-image: url(<%=model.thumbnail%>)">
+    <div class="productTile">
     <div class="productTile-overlay">
       <% if (model.isOnSale) { %>
         <div class="productTile-sale-tag"><span>SALE</span></div>
@@ -11,16 +11,16 @@
           <div class="productTile-product">
             <div class="productTile-top-title">
               <h2><%=model.name%></h2>
-              <p class="subdescription"></p>
+              <p class="subdescription">&nbsp;</p>
             </div>
           </div>
           <div class="productTile-product-price">
             <% if (model.isOnSale) { %>
               <span class="price-num"><%=model.salePrice%></span>
-              <p class="subdescription"><%=model.price%></p>
+              <p class="subdescription">$<%=currency(model.price).format()%></p>
               <div class="old-price"></div>
             <% } else { %>
-              <span class="price-num"><%=model.price%></span>
+              <span class="price-num">$<%=currency(model.price).format()%></span>
             <% } %>
           </div>
         </div>
