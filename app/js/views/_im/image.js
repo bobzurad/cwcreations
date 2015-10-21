@@ -16,9 +16,6 @@ define(
       },
 
       render: function() {
-
-        console.log("ImageView.render()");
-
         //render template
         this.$el.html(this.template({ model: this.model.attributes }));
 

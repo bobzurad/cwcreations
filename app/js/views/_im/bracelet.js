@@ -105,7 +105,6 @@ define(
 
       saveClick: function(e) {
         //set values on the model
-        //TODO: the tile image is getting wiped out after saving changes
         this.model.set({
           name: this.$name.val(),
           description: this.$description.val(),
@@ -125,15 +124,17 @@ define(
           Bracelets.create(this.model.attributes);
 
           //create thumbnail reference
-          this.ThumbnailFbModelRef = Backbone.Firebase.Model.extend({
-            url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id"),
-            autoSync: false
-          });
-          this.ThumbnailFbModel = new this.ThumbnailFbModelRef();
-          this.ThumbnailFbModel.save({
-            imageData: Common.DefaultThumbnailImage,
-            isThumbnail: true
-          });
+          if (this.ThumbnailFbModel === undefined) {
+            this.ThumbnailFbModelRef = Backbone.Firebase.Model.extend({
+              url: Common.FirebaseUrl + "thumbnails/" + this.model.get("id"),
+              autoSync: false
+            });
+            this.ThumbnailFbModel = new this.ThumbnailFbModelRef();
+            this.ThumbnailFbModel.save({
+              imageData: Common.DefaultThumbnailImage,
+              isThumbnail: true
+            });
+          }
 
           window.location.hash = "#/list";
         }

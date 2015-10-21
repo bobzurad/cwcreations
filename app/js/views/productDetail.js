@@ -30,7 +30,7 @@ define(
       },
 
       imagesLoaded: function() {
-        console.log("images loaded")
+        console.log("images loaded");
       }
 
     });
