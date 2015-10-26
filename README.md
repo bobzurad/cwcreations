@@ -9,6 +9,7 @@ Developing this project requires
 * [bower](http://bower.io)
 * A [firebase](http://www.firebase.com) account
   * Only needed if you want to write to your own firebase.
+  * Use [firebase-tools](https://www.npmjs.com/package/firebase-tools) to deploy with your firebase account
 
 ###Installation
 Once you've cloned this repository, cd to it's location and run:
